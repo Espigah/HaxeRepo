@@ -1,0 +1,8 @@
+-main Main
+--each 
+-cp src 
+-cp ../../_src
+
+-swf out/HaxeBinariesSWF.swf 
+-swf-version 11
+-swf-header 960:593:60:cccccc

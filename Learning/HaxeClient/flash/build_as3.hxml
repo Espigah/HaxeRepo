@@ -1,0 +1,6 @@
+-main Main
+--each 
+-cp src 
+-cp ../../_src
+
+-as3 out/as3/

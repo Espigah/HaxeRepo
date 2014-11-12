@@ -1,0 +1,6 @@
+-main Main
+--each 
+-cp src 
+-cp ../../_src
+
+-python out/

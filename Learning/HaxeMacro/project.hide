@@ -1,0 +1,100 @@
+{
+     "type" : 0
+    ,"target" : 0
+    ,"name" : "HaxeSwitchTest"
+    ,"main" : null
+    ,"projectPackage" : ""
+    ,"company" : "Espigah"
+    ,"license" : ""
+    ,"url" : ""
+    ,"targetData" : [
+         {
+             "pathToHxml" : "flash.hxml"
+            ,"runActionType" : 1
+            ,"runActionText" : "bin/HaxeSwitchTest.swf"
+        }
+        ,{
+             "pathToHxml" : "javascript.hxml"
+            ,"runActionType" : 1
+            ,"runActionText" : "bin\\index.html"
+        }
+        ,{
+             "pathToHxml" : "neko.hxml"
+            ,"runActionType" : 2
+            ,"runActionText" : "neko bin/HaxeSwitchTest.n"
+        }
+        ,{
+             "pathToHxml" : "php.hxml"
+        }
+        ,{
+             "pathToHxml" : "cpp.hxml"
+            ,"runActionType" : 2
+            ,"runActionText" : "bin/Main-debug.exe"
+        }
+        ,{
+             "pathToHxml" : "java.hxml"
+        }
+        ,{
+             "pathToHxml" : "csharp.hxml"
+        }
+        ,{
+             "pathToHxml" : "python.hxml"
+            ,"runActionType" : 2
+            ,"runActionText" : "python bin/HaxeSwitchTest.py"
+        }
+    ]
+    ,"files" : [
+         {
+             "path" : "flash.hxml"
+            ,"useTabs" : true
+            ,"indentSize" : 4
+            ,"foldedRegions" : [
+
+            ]
+            ,"activeLine" : 11
+        }
+        ,{
+             "path" : "src\\lab\\macros\\macro0\\FileNames.hx"
+        }
+        ,{
+             "path" : "src\\Main.hx"
+        }
+        ,{
+             "path" : "src\\lab\\test\\native\\TestMacro3.hx"
+            ,"useTabs" : true
+            ,"indentSize" : 4
+            ,"foldedRegions" : [
+
+            ]
+            ,"activeLine" : 0
+        }
+        ,{
+             "path" : "src\\lab\\test\\native\\TestMacro0.hx"
+            ,"useTabs" : true
+            ,"indentSize" : 4
+            ,"foldedRegions" : [
+
+            ]
+            ,"activeLine" : 13
+        }
+        ,{
+             "path" : "src\\lab\\macros\\macroT\\MacroAllTest.hx"
+            ,"useTabs" : true
+            ,"indentSize" : 4
+            ,"foldedRegions" : [
+
+            ]
+            ,"activeLine" : 7
+        }
+    ]
+    ,"activeFile" : "src\\lab\\macros\\macroT\\MacroAllTest.hx"
+    ,"openFLTarget" : null
+    ,"openFLBuildMode" : "Debug"
+    ,"runActionType" : null
+    ,"runActionText" : null
+    ,"buildActionCommand" : null
+    ,"hiddenItems" : [
+
+    ]
+    ,"showHiddenItems" : false
+}

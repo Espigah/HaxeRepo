@@ -1,0 +1,14 @@
+InsertSnippet|sippet_instance_1_1
+ScintillaCommand|Copy
+ScintillaCommand|CharRightExtend
+ScintillaCommand|LowerCase
+ScintillaCommand|LineEnd
+NewFromTemplate|GetterSetter
+ScintillaCommand|NewLine
+ScintillaCommand|Paste
+InsertSnippet|sippet_instance_1_2
+ScintillaCommand|CharRightExtend
+ScintillaCommand|LowerCase
+
+
+InsertSnippet|generators\GetterSetter

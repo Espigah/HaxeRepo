@@ -1,0 +1,9 @@
+-main Main
+--each 
+-cp src 
+-cp ../../_src
+
+-js out/build.js
+-cmd haxelib run jsmin out/build.js out/build.min1.js 1 "//minified by JSMinHx"
+-cmd haxelib run jsmin out/build.js out/build.min2.js 2 "//minified by JSMinHx"
+-cmd haxelib run jsmin out/build.js out/build.min3.js 3 "//minified by JSMinHx"

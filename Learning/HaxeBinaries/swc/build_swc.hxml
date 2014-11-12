@@ -1,0 +1,8 @@
+-main Main
+--each 
+-cp src 
+-cp ../../_src
+
+-swf out/HaxeBinariesSWC.swc 
+-swf-lib out/HaxeBinariesSWF.swf 
+-swf-version 11 
