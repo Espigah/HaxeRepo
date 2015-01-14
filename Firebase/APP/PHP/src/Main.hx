@@ -11,7 +11,7 @@ import php.Web;
 
 class Main 
 {
-	
+	static var dto:DataTransferObject = new DataTransferObject();
 	static function main() 
 	{
 		//
@@ -34,8 +34,8 @@ class Main
 	
 		if (CONSTANTS.ENTER == method)
 		{
-			returndata = enter(path, page, data);
-			php.Lib.println(returndata);
+			enter(path, page, data);			
+			php.Lib.println(dto.getJson());
 			return ;
 		}
 		
@@ -57,7 +57,7 @@ class Main
 		php.Lib.println(returndata);
 	}
 	
-	static private function enter(path, page, data):String
+	static private function enter(path, page, data)
 	{
 		var dist:String = CONSTANTS.FIREBASE;
 		if (path != "")
@@ -71,9 +71,10 @@ class Main
 		var firebase:Firebase =  new Firebase(dist);
 		if (firebase.val() != null)
 		{
-			return Json.stringify( { error:"Usuario ja cadastrado." } );
-		}		
-		return firebase.set(data);
+			dto.error = "Usuario ja cadastrado.";			
+		}	
+		var r = firebase.set(data);
+		dto.message = r;
 	}
 
 }

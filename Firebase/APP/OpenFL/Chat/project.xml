@@ -13,16 +13,16 @@
 	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />
 	
 	<!-- classpath, haxe libs -->
-	<source path="src" />
-	<source path="C:\Users\MCG\Desktop\Firebase\APP\COMMON" />
+	<source path="src" />	
 	<haxelib name="openfl" />
 	<haxelib name="actuate" />
 	<haxelib name="haxeui" />
-	
+	<source path="..\..\COMMON" />
 	<!-- assets -->
 	<icon path="assets/openfl.svg" />
 	<assets path="assets/img" rename="img" />
 	<assets path="assets/xml/ui" rename="ui" />
+	
 	
 	<!-- optimize output
 	<haxeflag name="-dce full" /> -->

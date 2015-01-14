@@ -52,8 +52,8 @@ class ServiceRequest extends EventDispatcher
 	public function onComplete(e:Event):Void
 	{
 		trace(e, loader.data, loader.dataFormat);
-		var d:Dynamic = Json.parse(loader.data);
-		trace(d.error);
+		var dd:DataTransferObject = DataTransferObject.convert(loader.data);
+		trace(dd.error);
 	}
 	
 	public function onIOError(e:IOErrorEvent):Void

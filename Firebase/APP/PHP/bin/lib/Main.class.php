@@ -3,6 +3,7 @@ require_once dirname(__FILE__).'/Firebase.extern.php';
 
 class Main {
 	public function __construct(){}
+	static $dto;
 	static function main() {
 		$params = php_Web::getParams();
 		$method = null;
@@ -31,8 +32,8 @@ class Main {
 		}
 		$returndata = "";
 		if("enter" === $method) {
-			$returndata = Main::enter($path, $page, $data);
-			php_Lib::println($returndata);
+			Main::enter($path, $page, $data);
+			php_Lib::println(Main::$dto->getJson());
 			return;
 		}
 		$firebase = new Firebase("https://intense-torch-9712.firebaseio.com" . _hx_string_or_null($path) . _hx_string_or_null($page), null);
@@ -64,9 +65,11 @@ class Main {
 		}
 		$firebase = new Firebase($dist, null);
 		if($firebase->val() !== null) {
-			return haxe_Json::phpJsonEncode(_hx_anonymous(array("error" => "Usuario ja cadastrado.")), null, null);
+			Main::$dto->error = "Usuario ja cadastrado.";
 		}
-		return $firebase->set($data);
+		$r = $firebase->set($data);
+		Main::$dto->message = $r;
 	}
 	function __toString() { return 'Main'; }
 }
+Main::$dto = new DataTransferObject(null);

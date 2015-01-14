@@ -6,9 +6,6 @@ class Math {
 	static $NaN;
 	static $POSITIVE_INFINITY;
 	static $NEGATIVE_INFINITY;
-	static function ceil($v) {
-		return (int) ceil($v);
-	}
 	static function isFinite($f) {
 		return is_finite($f);
 	}

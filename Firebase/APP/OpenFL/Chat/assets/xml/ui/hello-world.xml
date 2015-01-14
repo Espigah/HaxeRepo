@@ -7,6 +7,6 @@
 		<text text="Senha" id="senha_label" />
 		<TextInput text="123456" id="senha" displayAsPassword="true" />
 		<button text="Registrar" id="bt_register" />
-		<button text="Entrar" id="bt_login" x="200" />
+		<button text="Entrar" id="bt_login" x="200" />		
 	</grid>
 </vbox>
