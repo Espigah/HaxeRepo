@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<absolute id="theBox" style="borderSize:1;padding:5;borderColor:0x000000" width="200" height="320" autoSize="false"  x="130" y="100" >
+ <button text="Click Me!" x="130" y="100" />
+</absolute>
