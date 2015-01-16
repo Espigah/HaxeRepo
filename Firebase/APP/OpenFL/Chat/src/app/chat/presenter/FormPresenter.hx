@@ -1,11 +1,13 @@
 package src.app.chat.presenter;
-import app.chat.model.FormModel;
+import model.FormModel;
 import haxe.ui.toolkit.controls.Button;
 import haxe.ui.toolkit.controls.TextInput;
 import haxe.ui.toolkit.core.Component;
+import haxe.ui.toolkit.core.PopupManager;
 import haxe.ui.toolkit.core.XMLController;
 import openfl.events.MouseEvent;
 import src.app.chat.service.Service;
+import src.app.chat.service.ServiceRequest;
 /**
  * ...
  * @author espigah
@@ -40,7 +42,8 @@ class FormPresenter
 			model = new FormModel();
 			model.isRegister = true;
 			updatemodel();		
-			Service.getInstance().form.execute(model);
+			Service.getInstance().form.execute(model).callback(onRegister);
+			
 		});
 		
 		loginButton.addEventListener(MouseEvent.CLICK, function (event:MouseEvent)
@@ -48,14 +51,35 @@ class FormPresenter
 			model = new FormModel();
 			model.isRegister = false;
 			updatemodel();
-			Service.getInstance().form.execute(model);
+			Service.getInstance().form.execute(model).callback(onLogin);
 		});
+	}
+	
+	function onRegister(serviceRequest:ServiceRequest) 
+	{
+		if (serviceRequest.dto.error != "")
+		{
+			PopupManager.instance.showSimple(serviceRequest.dto.error, "Error" );
+		}
+	}
+	
+	function onLogin(serviceRequest:ServiceRequest) 
+	{
+		if (serviceRequest.dto.error != "")
+		{
+			PopupManager.instance.showSimple(serviceRequest.dto.error, "Error" );
+		}
+		else
+		{
+			PopupManager.instance.showSimple(serviceRequest.dto.result, "Result" );
+		}
+		
 	}
 	
 	function updatemodel() 
 	{
-		model.pass = passtext.text;
-		model.login = lognText.text;
+		model.data.pass = passtext.text;
+		model.data.login = lognText.text;
 	}
 	
 }

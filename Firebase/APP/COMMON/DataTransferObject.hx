@@ -10,6 +10,7 @@ class DataTransferObject // poderia ser um typedef
 	public var error:String = "";
 	public var message:String = "";
 	public var tag:String = "";
+	public var result:String;
 	public function new(data:Dynamic = null) 
 	{
 		if (data == null) { return; }

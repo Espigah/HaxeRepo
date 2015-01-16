@@ -7,6 +7,7 @@ class CONSTANTS {
 	static $DELETE = "delete";
 	static $UPDATE = "update";
 	static $SET = "set";
+	static $SPECIAL = "special";
 	static $GET = "GET";
 	static $METHOD = "method";
 	static $PAGE = "page";
@@ -16,5 +17,6 @@ class CONSTANTS {
 	static $PATH = "path";
 	static $ENTER = "enter";
 	static $ERROR = "error";
+	static $REGISTER = "register";
 	function __toString() { return 'CONSTANTS'; }
 }

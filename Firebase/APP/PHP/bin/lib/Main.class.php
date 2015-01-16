@@ -4,71 +4,76 @@ require_once dirname(__FILE__).'/Firebase.extern.php';
 class Main {
 	public function __construct(){}
 	static $dto;
+	static $params;
+	static $special;
+	static $method;
+	static $page;
+	static $path;
+	static $dist;
+	static $data;
 	static function main() {
-		$params = php_Web::getParams();
-		$method = null;
-		if($params->exists("method")) {
-			$method = $params->get("method");
+		Main::$params = php_Web::getParams();
+		if(Main::$params->exists("special")) {
+			Main::$special = Main::$params->get("special");
 		} else {
-			$method = "";
+			Main::$special = "";
 		}
-		$page = null;
-		if($params->exists("page")) {
-			$page = $params->get("page");
+		if(Main::$params->exists("method")) {
+			Main::$method = Main::$params->get("method");
 		} else {
-			$page = "";
+			Main::$method = "";
 		}
-		$data = null;
-		if($params->exists("data")) {
-			$data = $params->get("data");
+		if(Main::$params->exists("page")) {
+			Main::$page = Main::$params->get("page");
 		} else {
-			$data = "";
+			Main::$page = "";
 		}
-		$path = null;
-		if($params->exists("path")) {
-			$path = $params->get("path");
+		if(Main::$params->exists("data")) {
+			Main::$data = Main::$params->get("data");
 		} else {
-			$path = "";
+			Main::$data = "";
 		}
-		$returndata = "";
-		if("enter" === $method) {
-			Main::enter($path, $page, $data);
-			php_Lib::println(Main::$dto->getJson());
-			return;
+		if(Main::$params->exists("path")) {
+			Main::$path = Main::$params->get("path");
+		} else {
+			Main::$path = "";
 		}
-		$firebase = new Firebase("https://intense-torch-9712.firebaseio.com" . _hx_string_or_null($path) . _hx_string_or_null($page), null);
-		switch($method) {
-		case "set":{
-			$returndata = $firebase->set($data);
-		}break;
-		case "update":{
-			$returndata = $firebase->update($data);
-		}break;
-		case "push":{
-			$returndata = $firebase->push($data);
-		}break;
-		case "delete":{
-			$returndata = $firebase->delete($data);
-		}break;
-		default:{
-		}break;
+		Main::$dist = "https://intense-torch-9712.firebaseio.com";
+		if(Main::$path !== "") {
+			Main::$dist .= "/" . _hx_string_or_null(Main::$path);
 		}
-		php_Lib::println($returndata);
-	}
-	static function enter($path, $page, $data) {
-		$dist = "https://intense-torch-9712.firebaseio.com";
-		if($path !== "") {
-			$dist .= "/" . _hx_string_or_null($path);
+		if(Main::$page !== "") {
+			Main::$dist .= "/" . _hx_string_or_null(Main::$page);
 		}
-		if($page !== "") {
-			$dist .= "/" . _hx_string_or_null($page);
+		if(Main::$special === "1") {
+			$_g = Main::$method;
+			switch($_g) {
+			case "register":{
+				new actions_RegisterAction(Main::$dto);
+			}break;
+			case "enter":{
+				new actions_EnterAction(Main::$dto);
+			}break;
+			}
+		} else {
+			$firebase = new Firebase("https://intense-torch-9712.firebaseio.com" . _hx_string_or_null(Main::$path) . _hx_string_or_null(Main::$page), null);
+			{
+				$_g1 = Main::$method;
+				switch($_g1) {
+				case "set":{
+				}break;
+				case "update":{
+				}break;
+				case "push":{
+				}break;
+				case "delete":{
+				}break;
+				default:{
+				}break;
+				}
+			}
 		}
-		$firebase = new Firebase($dist, null);
-		if($firebase->val() !== null) {
-			Main::$dto->error = "Usuario ja cadastrado.";
-		}
-		$r = $firebase->set($data);
-		Main::$dto->message = $r;
+		php_Lib::println(Main::$dto->getJson());
 	}
 	function __toString() { return 'Main'; }
 }

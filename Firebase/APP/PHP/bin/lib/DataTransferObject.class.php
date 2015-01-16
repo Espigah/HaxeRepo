@@ -16,6 +16,7 @@ class DataTransferObject {
 	public $error;
 	public $message;
 	public $tag;
+	public $result;
 	public function getJson() {
 		return haxe_Json::phpJsonEncode($this, null);
 	}

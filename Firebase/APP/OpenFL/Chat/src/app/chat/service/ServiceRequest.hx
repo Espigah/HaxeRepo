@@ -16,6 +16,7 @@ class ServiceRequest extends EventDispatcher
 {
 	var request:openfl.net.URLRequest;
 	var loader:URLLoader;
+	public var dto:DataTransferObject;
 	public function new(url:String="",data:Dynamic=null) 
 	{
 		super(null);
@@ -36,7 +37,6 @@ class ServiceRequest extends EventDispatcher
 	
 	public function setData(data:ServiceData):Void
 	{
-		trace(":setData", data.getString());
 		request.data = data.getString();
 	}
 	
@@ -46,18 +46,45 @@ class ServiceRequest extends EventDispatcher
 		loader.addEventListener(Event.COMPLETE, onComplete );
 		//loader.addEventListener(Event.INIT, onNetworkError);
 		loader.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
+		
+		print();
 		loader.load(request);
+	}
+	
+	function print() 
+	{
+		trace("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		trace("Data = ", request.data);
+		trace("url = ", request.url);
+		trace("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	}
 	
 	public function onComplete(e:Event):Void
 	{
-		trace(e, loader.data, loader.dataFormat);
-		var dd:DataTransferObject = DataTransferObject.convert(loader.data);
-		trace(dd.error);
+		trace("onComplete");
+		//trace(e, loader.data, loader.dataFormat);
+		dto = DataTransferObject.convert(loader.data);
+		//trace(dd.error);		
+		dispatchEvent(e);
 	}
 	
 	public function onIOError(e:IOErrorEvent):Void
 	{
 		trace(e);
+	}
+	
+	public function callback(__callback:Dynamic) 
+	{
+		if (dto != null)
+		{
+			__callback(this);
+		}
+		else
+		{
+			this.addEventListener(Event.COMPLETE, function(e:Dynamic):Void
+			{
+				__callback(this);
+			});
+		}
 	}
 }

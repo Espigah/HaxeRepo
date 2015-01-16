@@ -18,6 +18,8 @@ class CONSTANTS
 	public static inline var DELETE:String = "delete";
 	public static inline var UPDATE:String = "update";
 	static public inline var SET:String = "set";	
+	//nao nativo
+	static public inline var SPECIAL:String = "special";
 	//________________________________________________________________________________________________________________________
 	//????
 	//________________________________________________________________________________________________________________________
@@ -38,5 +40,7 @@ class CONSTANTS
 	static public inline var PATH:String = "path";
 	static public inline var ENTER:String = "enter";
 	static public inline var ERROR:String = "error";
+	static public inline var REGISTER:String = "register";
+	
 	
 }
