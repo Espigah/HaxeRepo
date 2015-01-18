@@ -24,6 +24,7 @@
 -D lime-curl
 -D fdb
 -D web
+-D next
 -swf-lib bin/flash/obj/assets.swf
 -swf-version 11.2
 -swf bin/flash/bin/Firebase.swf

@@ -320,6 +320,12 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("fonts/Oxygen-Bold.ttf", AssetType.FONT);
 		className.set ("fonts/Oxygen.ttf", __ASSET__fonts_oxygen_ttf);
 		type.set ("fonts/Oxygen.ttf", AssetType.FONT);
+		className.set ("img/b0.png", __ASSET__img_b0_png);
+		type.set ("img/b0.png", AssetType.IMAGE);
+		className.set ("img/b1.png", __ASSET__img_b1_png);
+		type.set ("img/b1.png", AssetType.IMAGE);
+		className.set ("img/b2.png", __ASSET__img_b2_png);
+		type.set ("img/b2.png", AssetType.IMAGE);
 		className.set ("ui/form.xml", __ASSET__ui_form_xml);
 		type.set ("ui/form.xml", AssetType.TEXT);
 		
@@ -879,6 +885,18 @@ class DefaultAssetLibrary extends AssetLibrary {
 		className.set (id, __ASSET__fonts_oxygen_ttf);
 		
 		type.set (id, AssetType.FONT);
+		id = "img/b0.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "img/b1.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "img/b2.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
 		id = "ui/form.xml";
 		path.set (id, id);
 		
@@ -1027,6 +1045,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		openfl.text.Font.registerFont (__ASSET__fonts_oxygen_bold_ttf);
 		openfl.text.Font.registerFont (__ASSET__fonts_oxygen_ttf);
+		
+		
+		
 		
 		
 		#end
@@ -1448,6 +1469,15 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		className.set ("fonts/Oxygen.ttf", __ASSET__fonts_oxygen_ttf);
 		type.set ("fonts/Oxygen.ttf", AssetType.FONT);
+		
+		className.set ("img/b0.png", __ASSET__img_b0_png);
+		type.set ("img/b0.png", AssetType.IMAGE);
+		
+		className.set ("img/b1.png", __ASSET__img_b1_png);
+		type.set ("img/b1.png", AssetType.IMAGE);
+		
+		className.set ("img/b2.png", __ASSET__img_b2_png);
+		type.set ("img/b2.png", AssetType.IMAGE);
 		
 		className.set ("ui/form.xml", __ASSET__ui_form_xml);
 		type.set ("ui/form.xml", AssetType.TEXT);
@@ -2163,6 +2193,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:keep @:bind #if display private #end class __ASSET__styles_windows_windows_css extends flash.utils.ByteArray { }
 @:keep @:bind #if display private #end class __ASSET__fonts_oxygen_bold_ttf extends flash.text.Font { }
 @:keep @:bind #if display private #end class __ASSET__fonts_oxygen_ttf extends flash.text.Font { }
+@:keep @:bind #if display private #end class __ASSET__img_b0_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__img_b1_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__img_b2_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__ui_form_xml extends flash.utils.ByteArray { }
 
 
@@ -2307,6 +2340,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 @:keep #if display private #end class __ASSET__fonts_oxygen_bold_ttf extends openfl.text.Font { public function new () { super (); fontName = "Oxygen Bold"; } } 
 @:keep #if display private #end class __ASSET__fonts_oxygen_ttf extends openfl.text.Font { public function new () { super (); fontName = "Oxygen Regular"; } } 
+
+
+
 
 
 #end
@@ -2462,6 +2498,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 //@:file("F:/dev/HaxeToolkit/haxe/lib/haxeui/1,7,0/assets/styles/windows/windows.css") class __ASSET__styles_windows_windows_css extends lime.utils.ByteArray {}
 //@:font("F:/dev/HaxeToolkit/haxe/lib/haxeui/1,7,0/assets/fonts/Oxygen-Bold.ttf") class __ASSET__fonts_oxygen_bold_ttf extends openfl.text.Font {}
 //@:font("F:/dev/HaxeToolkit/haxe/lib/haxeui/1,7,0/assets/fonts/Oxygen.ttf") class __ASSET__fonts_oxygen_ttf extends openfl.text.Font {}
+//@:bitmap("assets/img/b0.png") class __ASSET__img_b0_png extends openfl.display.BitmapData {}
+//@:bitmap("assets/img/b1.png") class __ASSET__img_b1_png extends openfl.display.BitmapData {}
+//@:bitmap("assets/img/b2.png") class __ASSET__img_b2_png extends openfl.display.BitmapData {}
 //@:file("assets/xml/ui/form.xml") class __ASSET__ui_form_xml extends lime.utils.ByteArray {}
 //
 //
