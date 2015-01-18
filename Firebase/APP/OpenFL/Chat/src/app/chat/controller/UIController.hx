@@ -1,4 +1,5 @@
 package src.app.chat.controller;
+import haxe.Timer;
 import src.app.chat.presenter.FormPresenter;
 import haxe.ui.toolkit.core.XMLController;
 import haxe.ui.toolkit.resources.ResourceManager;
@@ -13,7 +14,7 @@ class UIController extends XMLController
 	public var formPresenter:FormPresenter;
 	public function new() 
 	{
-		super("ui/hello-world.xml");
+		super("ui/form.xml");
 		formPresenter = new FormPresenter(this);
 		//var a = ResourceManager.instance.getText(xmlResourceId);
 		//view.addEventListener(

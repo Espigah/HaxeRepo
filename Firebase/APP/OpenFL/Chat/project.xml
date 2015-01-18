@@ -3,10 +3,10 @@
 	<!-- NMML reference: https://gist.github.com/1763850 -->
 	
 	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-	<meta title="URLRequest" package="URLRequest" version="1.0.0" company="espigah" />
+	<meta title="Firebase" package="Firebase" version="1.0.0" company="espigah" />
 	
 	<!-- output -->
-	<app main="Main" file="URLRequest" path="bin" />
+	<app main="Main" file="Firebase" path="bin" />
 	
 	<window background="#000000" fps="60" />
 	<window width="800" height="480" unless="mobile" />
@@ -27,5 +27,5 @@
 	
 	<!-- optimize output
 	<haxeflag name="-dce full" /> -->
-	
+	<haxeflag name="-D next" /> 
 </project>

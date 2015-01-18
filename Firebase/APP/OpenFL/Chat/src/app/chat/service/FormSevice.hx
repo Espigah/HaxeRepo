@@ -1,6 +1,6 @@
 package src.app.chat.service;
-import model.FormModel;
-import model.Model;
+import app.chat.model.FormModel;
+import app.chat.model.Model;
 import app.chat.service.ServiceAction;
 import src.app.chat.service.request.FormRequest;
 

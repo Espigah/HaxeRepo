@@ -579,7 +579,7 @@ class ApplicationMain {
 		types.push (AssetType.FONT);
 		
 		
-		urls.push ("ui/hello-world.xml");
+		urls.push ("ui/form.xml");
 		types.push (AssetType.TEXT);
 		
 		
@@ -639,7 +639,7 @@ class ApplicationMain {
 			orientation: "",
 			resizable: true,
 			stencilBuffer: false,
-			title: "URLRequest",
+			title: "Firebase",
 			vsync: false,
 			width: Std.int (800),
 			

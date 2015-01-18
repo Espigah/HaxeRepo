@@ -1,5 +1,5 @@
 package app.chat.service;
-import model.Model;
+import app.chat.model.Model;
 import src.app.chat.service.ServiceRequest;
 
 /**

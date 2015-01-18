@@ -1,5 +1,5 @@
 package src.app.chat.service;
-import model.FormModel;
+import app.chat.model.FormModel;
 import openfl.errors.Error;
 
 /**
