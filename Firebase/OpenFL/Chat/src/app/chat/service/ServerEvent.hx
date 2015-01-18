@@ -1,14 +1,12 @@
-package app.chat.views;
-
-import app.chat.utils.Vector2D;
+package app.chat.service;
 
 /**
  * ...
  * @author espigah
  */
-class Scene
+class ServerEvent
 {
-	
+
 	public function new() 
 	{
 		

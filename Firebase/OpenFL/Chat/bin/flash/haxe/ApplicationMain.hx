@@ -587,7 +587,7 @@ class ApplicationMain {
 		types.push (AssetType.IMAGE);
 		
 		
-		urls.push ("img/b3.png");
+		urls.push ("img/b2.png");
 		types.push (AssetType.IMAGE);
 		
 		

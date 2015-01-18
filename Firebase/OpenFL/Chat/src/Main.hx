@@ -1,10 +1,12 @@
 package;
 
+import app.chat.views.GrdView;
 import app.chat.views.View;
 import haxe.ui.toolkit.core.interfaces.IDisplayObject;
 import haxe.ui.toolkit.core.Root;
 import haxe.ui.toolkit.core.Toolkit;
 import haxe.ui.toolkit.themes.GradientTheme;
+import motion.Actuate;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.Lib;
@@ -42,8 +44,7 @@ class Main extends Sprite
 				root.dispose();
 			}
 			view.addEventListener(Event.CHANGE, onChange);
-			view.addEventListener(Event.CHANGE, onRemove);
-			Lib.current.stage.addChild(new View(1).startAnimation().setPostion());
+			view.addEventListener(Event.CHANGE, onRemove);			
        });
 	   
 	   
@@ -51,7 +52,15 @@ class Main extends Sprite
 	
 	private function onChange(e:Event):Void 
 	{
-	
+		trace("onChange", e);
+			var gradeView = new GrdView();
+			Lib.current.stage.addChild(gradeView);			
+			gradeView.x = Lib.current.stage.width * 0.5;
+			gradeView.y = Lib.current.stage.height * 0.5;
+			gradeView.x -= gradeView.width * 0.5;
+			gradeView.y -= gradeView.height * 0.5;
+			gradeView.alpha = 0;
+			Actuate.tween(gradeView, 0.5, { alpha: 1 } );
 	}
 	//private function onIOError(e:Event):Void 
 	//{

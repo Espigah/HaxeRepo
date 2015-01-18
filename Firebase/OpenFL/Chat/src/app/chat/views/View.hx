@@ -20,7 +20,7 @@ class View extends Sprite
 	public function new(assetNumber:Int) 
 	{
 		super();
-		bitmapData = Assets.getBitmapData("img/b"+assetNumber+".png");
+		bitmapData = Assets.getBitmapData("img/b"+assetNumber+".png",false);
 		bitmap = new Bitmap(bitmapData);	
 		bitmap.x -= bitmap.width*0.5;
 		bitmap.y -= bitmap.height * 0.5;
@@ -42,6 +42,11 @@ class View extends Sprite
 		x=50;
 		y=50;
 		return this;
+	}
+	
+	public function active() 
+	{
+		bitmap.visible = true;
 	}
 	
 }
