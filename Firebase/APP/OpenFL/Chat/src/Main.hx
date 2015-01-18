@@ -45,9 +45,20 @@ class Main extends Sprite
        
 	      Toolkit.openFullscreen(function(root:Root) {
 			var uiController:UIController =  new UIController();
-            var view:IDisplayObject = uiController.view ;		
+            var view:IDisplayObject = uiController.view ;	
+			centralizeView(view);
             root.addChild(view);
        });
+	}
+	
+	function centralizeView(view:IDisplayObject) 
+	{
+		var centerPoint = { x:0, y:0 };
+		//centerPoint.x = stage.widgth * 0.5;
+		//centerPoint.y = stage.heigth * 0.5;
+		//view.x = 100;
+		
+		//view.pa
 	}
 	
 	//private function onIOError(e:Event):Void 

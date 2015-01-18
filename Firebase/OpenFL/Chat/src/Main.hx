@@ -1,17 +1,14 @@
 package;
 
+import app.chat.views.View;
 import haxe.ui.toolkit.core.interfaces.IDisplayObject;
 import haxe.ui.toolkit.core.Root;
 import haxe.ui.toolkit.core.Toolkit;
-import haxe.ui.toolkit.events.UIEvent;
 import haxe.ui.toolkit.themes.GradientTheme;
 import openfl.display.Sprite;
-import openfl.Lib;
-import openfl.net.URLRequest;
-import openfl.net.URLRequestMethod;
-import openfl.net.URLLoader;
 import openfl.events.Event;
-import openfl.events.IOErrorEvent;
+import openfl.Lib;
+import openfl.net.URLLoader;
 import src.app.chat.controller.UIController;
 
 /**
@@ -26,18 +23,7 @@ class Main extends Sprite
 	public function new() 
 	{
 		super();
-		// Assets:
-		// openfl.Assets.getBitmapData("img/assetname.jpg");
-		
-		//var request:openfl.net.URLRequest = new openfl.net.URLRequest(URL);
-		//request.method = URLRequestMethod.POST;
-		//request.contentType = "text/plain";
-		//request.data = "name=123456";
-		//loader = new URLLoader(request);
-		//loader.addEventListener(Event.COMPLETE, onComplete );
-		//loader.addEventListener(Event.INIT, onNetworkError);
-		//loader.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
-		//loader.load(request);
+	
 		Toolkit.theme = new GradientTheme();
         Toolkit.init();
        
@@ -45,22 +31,41 @@ class Main extends Sprite
 			var uiController:UIController =  new UIController();
             var view:IDisplayObject = uiController.view ;		
             root.addChild(view);
+			view.x = root.width * 0.5;
+			view.y = root.height * 0.5;		
+			view.x -= view.width * 0.5;
+			view.y -= view.height * 0.5;
+			
+			function onRemove(e:Event):Void 
+			{
+				root.removeChild(view);
+				root.dispose();
+			}
+			view.addEventListener(Event.CHANGE, onChange);
+			view.addEventListener(Event.CHANGE, onRemove);
+			Lib.current.stage.addChild(new View(1).startAnimation().setPostion());
        });
+	   
+	   
 	}
 	
-	private function onIOError(e:Event):Void 
+	private function onChange(e:Event):Void 
 	{
-		trace("onIOError",e);
-	}
 	
-	private function onNetworkError(e:Event):Void 
-	{
-		trace("onNetworkError",e);
 	}
-	
-	private function onComplete(e:Event):Void 
-	{
-		trace("onComplete", e);
-		trace(loader.data);
-	}
+	//private function onIOError(e:Event):Void 
+	//{
+		//trace("onIOError",e);
+	//}
+	//
+	//private function onNetworkError(e:Event):Void 
+	//{
+		//trace("onNetworkError",e);
+	//}
+	//
+	//private function onComplete(e:Event):Void 
+	//{
+		//trace("onComplete", e);
+		//trace(loader.data);
+	//}
 }

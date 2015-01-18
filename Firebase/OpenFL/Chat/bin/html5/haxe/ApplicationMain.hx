@@ -579,6 +579,18 @@ class ApplicationMain {
 		types.push (AssetType.FONT);
 		
 		
+		urls.push ("img/b0.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("img/b1.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("img/b3.png");
+		types.push (AssetType.IMAGE);
+		
+		
 		urls.push ("ui/hello-world.xml");
 		types.push (AssetType.TEXT);
 		

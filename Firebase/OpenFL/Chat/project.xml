@@ -21,9 +21,12 @@
 	<!-- assets -->
 	<icon path="assets/openfl.svg" />
 	<assets path="assets/img" rename="img" />
+
 	<assets path="assets/xml/ui" rename="ui" />
 	
-	<!-- optimize output
-	<haxeflag name="-dce full" /> -->
+	<!-- optimize output  
+	<haxeflag name="-dce full" />-->
+	<haxeflag name="-D next" /> 
+	
 	
 </project>

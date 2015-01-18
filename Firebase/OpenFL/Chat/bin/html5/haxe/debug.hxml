@@ -5,23 +5,24 @@
 -D svg=1.0.8
 -cp F:/dev/HaxeToolkit/haxe/lib/hscript/2,0,4
 -D hscript=2.0.4
--cp F:/dev/HaxeToolkit/haxe/lib/lime/2,0,4
--D lime=2.0.4
--cp F:/dev/HaxeToolkit/haxe/lib/actuate/1,8,0
--D actuate=1.8.0
+-cp F:/dev/HaxeToolkit/haxe/lib/lime/2,0,5
+-D lime=2.0.5
+-cp F:/dev/HaxeToolkit/haxe/lib/actuate/1,8,1
+-D actuate=1.8.1
 -cp F:/dev/HaxeToolkit/haxe/lib/yagp/1,1,4
 -D yagp=1.1.4
--cp F:/dev/HaxeToolkit/haxe/lib/openfl/2,2,2
--D openfl=2.2.2
+-cp F:/dev/HaxeToolkit/haxe/lib/openfl/2,2,3
+-D openfl=2.2.3
 -cp src
 -D lime-openal
--D tools=2.0.4
+-D tools=2.0.5
 -D no-compilation
 -D lime-opengl
 -D openfl-html5
 -D canvas
 -D lime-html5
 -D lime-curl
+-D js-flatten
 -D fdb
 -D html5
 -D web
@@ -31,4 +32,3 @@
 -D html5
 --macro allowPackage("flash")
 -debug
--D js-flatten

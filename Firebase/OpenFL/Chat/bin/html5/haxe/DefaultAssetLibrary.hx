@@ -320,6 +320,12 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("fonts/Oxygen-Bold.ttf", AssetType.FONT);
 		className.set ("fonts/Oxygen.ttf", __ASSET__fonts_oxygen_ttf);
 		type.set ("fonts/Oxygen.ttf", AssetType.FONT);
+		className.set ("img/b0.png", __ASSET__img_b0_png);
+		type.set ("img/b0.png", AssetType.IMAGE);
+		className.set ("img/b1.png", __ASSET__img_b1_png);
+		type.set ("img/b1.png", AssetType.IMAGE);
+		className.set ("img/b3.png", __ASSET__img_b3_png);
+		type.set ("img/b3.png", AssetType.IMAGE);
 		className.set ("ui/hello-world.xml", __ASSET__ui_hello_world_xml);
 		type.set ("ui/hello-world.xml", AssetType.TEXT);
 		
@@ -879,6 +885,18 @@ class DefaultAssetLibrary extends AssetLibrary {
 		className.set (id, __ASSET__fonts_oxygen_ttf);
 		
 		type.set (id, AssetType.FONT);
+		id = "img/b0.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "img/b1.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "img/b3.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
 		id = "ui/hello-world.xml";
 		path.set (id, id);
 		
@@ -1027,6 +1045,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		openfl.text.Font.registerFont (__ASSET__fonts_oxygen_bold_ttf);
 		openfl.text.Font.registerFont (__ASSET__fonts_oxygen_ttf);
+		
+		
+		
 		
 		
 		#end
@@ -1448,6 +1469,15 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		className.set ("fonts/Oxygen.ttf", __ASSET__fonts_oxygen_ttf);
 		type.set ("fonts/Oxygen.ttf", AssetType.FONT);
+		
+		className.set ("img/b0.png", __ASSET__img_b0_png);
+		type.set ("img/b0.png", AssetType.IMAGE);
+		
+		className.set ("img/b1.png", __ASSET__img_b1_png);
+		type.set ("img/b1.png", AssetType.IMAGE);
+		
+		className.set ("img/b3.png", __ASSET__img_b3_png);
+		type.set ("img/b3.png", AssetType.IMAGE);
 		
 		className.set ("ui/hello-world.xml", __ASSET__ui_hello_world_xml);
 		type.set ("ui/hello-world.xml", AssetType.TEXT);
@@ -2163,6 +2193,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:keep @:bind #if display private #end class __ASSET__styles_windows_windows_css extends null { }
 @:keep @:bind #if display private #end class __ASSET__fonts_oxygen_bold_ttf extends null { }
 @:keep @:bind #if display private #end class __ASSET__fonts_oxygen_ttf extends null { }
+@:keep @:bind #if display private #end class __ASSET__img_b0_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__img_b1_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__img_b3_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__ui_hello_world_xml extends null { }
 
 
@@ -2309,15 +2342,18 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:keep #if display private #end class __ASSET__fonts_oxygen_ttf extends openfl.text.Font { public function new () { super (); fontName = "Oxygen Regular"; } } 
 
 
+
+
+
 #end
 
 #else
 
 #if openfl
-class __ASSET__assets_fonts_oxygen_bold_ttf extends openfl.text.Font { public function new () { super (); __fontPath = "assets/fonts/Oxygen-Bold"; fontName = "Oxygen Bold"; }}
-class __ASSET__assets_fonts_oxygen_ttf extends openfl.text.Font { public function new () { super (); __fontPath = "assets/fonts/Oxygen"; fontName = "Oxygen Regular"; }}
-class __ASSET__fonts_oxygen_bold_ttf extends openfl.text.Font { public function new () { super (); __fontPath = "fonts/Oxygen-Bold"; fontName = "Oxygen Bold"; }}
-class __ASSET__fonts_oxygen_ttf extends openfl.text.Font { public function new () { super (); __fontPath = "fonts/Oxygen"; fontName = "Oxygen Regular"; }}
+@:keep class __ASSET__assets_fonts_oxygen_bold_ttf extends openfl.text.Font { public function new () { super (); __fontPath = "assets/fonts/Oxygen-Bold"; fontName = "Oxygen Bold"; }}
+@:keep class __ASSET__assets_fonts_oxygen_ttf extends openfl.text.Font { public function new () { super (); __fontPath = "assets/fonts/Oxygen"; fontName = "Oxygen Regular"; }}
+@:keep class __ASSET__fonts_oxygen_bold_ttf extends openfl.text.Font { public function new () { super (); __fontPath = "fonts/Oxygen-Bold"; fontName = "Oxygen Bold"; }}
+@:keep class __ASSET__fonts_oxygen_ttf extends openfl.text.Font { public function new () { super (); __fontPath = "fonts/Oxygen"; fontName = "Oxygen Regular"; }}
 
 #end
 
@@ -2462,6 +2498,9 @@ class __ASSET__fonts_oxygen_ttf extends openfl.text.Font { public function new (
 //@:file("F:/dev/HaxeToolkit/haxe/lib/haxeui/1,6,17/assets/styles/windows/windows.css") class __ASSET__styles_windows_windows_css extends lime.utils.ByteArray {}
 //@:font("F:/dev/HaxeToolkit/haxe/lib/haxeui/1,6,17/assets/fonts/Oxygen-Bold.ttf") class __ASSET__fonts_oxygen_bold_ttf extends openfl.text.Font {}
 //@:font("F:/dev/HaxeToolkit/haxe/lib/haxeui/1,6,17/assets/fonts/Oxygen.ttf") class __ASSET__fonts_oxygen_ttf extends openfl.text.Font {}
+//@:bitmap("assets/img/b0.png") class __ASSET__img_b0_png extends openfl.display.BitmapData {}
+//@:bitmap("assets/img/b1.png") class __ASSET__img_b1_png extends openfl.display.BitmapData {}
+//@:bitmap("assets/img/b3.png") class __ASSET__img_b3_png extends openfl.display.BitmapData {}
 //@:file("assets/xml/ui/hello-world.xml") class __ASSET__ui_hello_world_xml extends lime.utils.ByteArray {}
 //
 //
