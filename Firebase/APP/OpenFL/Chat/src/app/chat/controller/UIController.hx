@@ -16,6 +16,7 @@ class UIController extends XMLController
 	{
 		super("ui/form.xml");
 		formPresenter = new FormPresenter(this);
+		formPresenter.addEventListener(Event.COMPLETE, onForm);
 		//var a = ResourceManager.instance.getText(xmlResourceId);
 		//view.addEventListener(
 		//Event.CHANGE,
@@ -23,6 +24,11 @@ class UIController extends XMLController
 		//);
 		
 		
+	}
+	
+	private function onForm(e:Event):Void 
+	{
+		view.dispatchEvent(new Event(Event.CHANGE));
 	}
 	
 	

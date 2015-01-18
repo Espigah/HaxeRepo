@@ -53,7 +53,16 @@ class ServiceRequest extends EventDispatcher
 	{
 		trace(e, loader.data, loader.dataFormat);
 		var d:Dynamic = Json.parse(loader.data);
-		trace(d.error);
+		if (d.result != null)
+		{
+			d.result = Json.parse(d.result );
+		}
+		if (d.error != "")
+		{
+			
+		}
+		
+		dispatchEvent(e);
 	}
 	
 	public function onIOError(e:IOErrorEvent):Void

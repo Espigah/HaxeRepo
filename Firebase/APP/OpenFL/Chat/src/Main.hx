@@ -45,12 +45,6 @@ class Main extends Sprite
 			}
 			view.addEventListener(Event.CHANGE, onChange);
 			view.addEventListener(Event.CHANGE, onRemove);	
-			
-			
-			
-			
-			
-			onChange(null);
        });
 	   
 	   

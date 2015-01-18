@@ -4,13 +4,16 @@ import haxe.ui.toolkit.controls.Button;
 import haxe.ui.toolkit.controls.TextInput;
 import haxe.ui.toolkit.core.Component;
 import haxe.ui.toolkit.core.XMLController;
+import openfl.events.Event;
+import openfl.events.EventDispatcher;
 import openfl.events.MouseEvent;
 import src.app.chat.service.Service;
+import src.app.chat.service.ServiceRequest;
 /**
  * ...
  * @author espigah
  */
-class FormPresenter
+class FormPresenter extends EventDispatcher
 {
 	var xmlController:XMLController;
 	var passtext:TextInput;
@@ -20,6 +23,7 @@ class FormPresenter
 	public var model:FormModel;
 	public function new(xmlController:XMLController) 
 	{
+		super();
 		this.xmlController = xmlController;	
 		attachElements();
 		attachEvents();
@@ -40,7 +44,8 @@ class FormPresenter
 			model = new FormModel();
 			model.isRegister = true;
 			updatemodel();		
-			Service.getInstance().form.execute(model);
+			var sr = Service.getInstance().form.execute(model);
+			sr.addEventListener(Event.COMPLETE, onRegisterComplete);
 		});
 		
 		loginButton.addEventListener(MouseEvent.CLICK, function (event:MouseEvent)
@@ -48,8 +53,21 @@ class FormPresenter
 			model = new FormModel();
 			model.isRegister = false;
 			updatemodel();
-			Service.getInstance().form.execute(model);
+			var sr = Service.getInstance().form.execute(model);
+			sr.addEventListener(Event.COMPLETE, onEnterComplete);
 		});
+	}
+	
+	function onRegisterComplete(e:Event) 
+	{
+		e.target.removeEventListener(Event.COMPLETE, onEnterComplete);
+		dispatchEvent(e);
+	}
+	
+	function onEnterComplete(e:Event) 
+	{
+		e.target.removeEventListener(Event.COMPLETE, onEnterComplete);
+		dispatchEvent(e);
 	}
 	
 	function updatemodel() 
