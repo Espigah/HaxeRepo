@@ -12,11 +12,11 @@ class actions_EnterAction {
 		$hashHaxe = php_Lib::hashOfAssociativeArray($hashPhp);
 		$user = haxe_Json::phpJsonDecode(Main::$data);
 		$dto->message = "";
-		$userOrigen = _hx_anonymous(array("login" => $hashHaxe->get("login")));
+		$userOrigen = _hx_anonymous(array("login" => $hashHaxe->get("login"), "pass" => $hashHaxe->get("pass"), "uid" => $hashHaxe->get("uid")));
 		if($userOrigen->login === $user->login) {
 			$dto->message = "OK";
 		}
-		$dto->result = haxe_Json::phpJsonEncode($userOrigen, null);
+		$dto->result = haxe_Json::phpJsonEncode($userOrigen, null, null);
 	}}
 	function __toString() { return 'actions.EnterAction'; }
 }

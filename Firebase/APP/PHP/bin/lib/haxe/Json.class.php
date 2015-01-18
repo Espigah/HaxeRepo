@@ -26,9 +26,9 @@ class haxe_Json {
 			}
 		}
 	}
-	static function phpJsonEncode($val, $replacer = null) {
-		if(null !== $replacer) {
-			return haxe_format_JsonPrinter::hprint($val, $replacer);
+	static function phpJsonEncode($val, $replacer = null, $space = null) {
+		if(null !== $replacer || null !== $space) {
+			return haxe_format_JsonPrinter::hprint($val, $replacer, $space);
 		}
 		$json = json_encode(haxe_Json::convertBeforeEncode($val));
 		if(($json === false)) {

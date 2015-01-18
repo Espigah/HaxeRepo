@@ -1,13 +1,19 @@
 <?php
 
 class haxe_format_JsonPrinter {
-	public function __construct($replacer) {
+	public function __construct($replacer, $space) {
 		if(!php_Boot::$skip_constructor) {
 		$this->replacer = $replacer;
+		$this->indent = $space;
+		$this->pretty = $space !== null;
+		$this->nind = 0;
 		$this->buf = new StringBuf();
 	}}
 	public $buf;
 	public $replacer;
+	public $indent;
+	public $pretty;
+	public $nind;
 	public function write($k, $v) {
 		if($this->replacer !== null) {
 			$v = $this->replacer($k, $v);
@@ -46,32 +52,77 @@ class haxe_format_JsonPrinter {
 						$v3 = $v;
 						$this->buf->b .= "[";
 						$len = $v3->length;
-						if($len > 0) {
-							$this->write(0, $v3[0]);
-							$i = 1;
-							while($i < $len) {
-								$this->buf->b .= ",";
-								$this->write($i, $v3[$i++]);
+						$last = $len - 1;
+						{
+							$_g1 = 0;
+							while($_g1 < $len) {
+								$i = $_g1++;
+								if($i > 0) {
+									$this->buf->b .= ",";
+								} else {
+									$this->nind++;
+								}
+								if($this->pretty) {
+									$this->buf->b .= "\x0A";
+								}
+								if($this->pretty) {
+									$v4 = null;
+									{
+										$c1 = $this->indent;
+										$l = $this->nind * strlen($this->indent);
+										if(strlen($c1) === 0 || strlen("") >= $l) {
+											$v4 = "";
+										} else {
+											$v4 = str_pad("", Math::ceil(($l - strlen("")) / strlen($c1)) * strlen($c1) + strlen(""), $c1, STR_PAD_LEFT);
+										}
+										unset($l,$c1);
+									}
+									$this->buf->add($v4);
+									unset($v4);
+								}
+								$this->write($i, $v3[$i]);
+								if($i === $last) {
+									$this->nind--;
+									if($this->pretty) {
+										$this->buf->b .= "\x0A";
+									}
+									if($this->pretty) {
+										$v5 = null;
+										{
+											$c2 = $this->indent;
+											$l1 = $this->nind * strlen($this->indent);
+											if(strlen($c2) === 0 || strlen("") >= $l1) {
+												$v5 = "";
+											} else {
+												$v5 = str_pad("", Math::ceil(($l1 - strlen("")) / strlen($c2)) * strlen($c2) + strlen(""), $c2, STR_PAD_LEFT);
+											}
+											unset($l1,$c2);
+										}
+										$this->buf->add($v5);
+										unset($v5);
+									}
+								}
+								unset($i);
 							}
 						}
 						$this->buf->b .= "]";
 					} else {
 						if((is_object($_t3 = $c) && !($_t3 instanceof Enum) ? $_t3 === _hx_qtype("haxe.ds.StringMap") : $_t3 == _hx_qtype("haxe.ds.StringMap"))) {
-							$v4 = $v;
+							$v6 = $v;
 							$o = _hx_anonymous(array());
-							if(null == $v4) throw new HException('null iterable');
-							$__hx__it = $v4->keys();
+							if(null == $v6) throw new HException('null iterable');
+							$__hx__it = $v6->keys();
 							while($__hx__it->hasNext()) {
 								$k1 = $__hx__it->next();
-								$value = $v4->get($k1);
+								$value = $v6->get($k1);
 								$o->{$k1} = $value;
 								unset($value);
 							}
 							$this->fieldsString($o, Reflect::fields($o));
 						} else {
 							if((is_object($_t4 = $c) && !($_t4 instanceof Enum) ? $_t4 === _hx_qtype("Date") : $_t4 == _hx_qtype("Date"))) {
-								$v5 = $v;
-								$this->quote($v5->toString());
+								$v7 = $v;
+								$this->quote($v7->toString());
 							} else {
 								$this->fieldsString($v, Reflect::fields($v));
 							}
@@ -86,8 +137,8 @@ class haxe_format_JsonPrinter {
 					$i1 = $e->index;
 				}
 				{
-					$v6 = $i1;
-					$this->buf->add($v6);
+					$v8 = $i1;
+					$this->buf->add($v8);
 				}
 			}break;
 			case 3:{
@@ -100,26 +151,69 @@ class haxe_format_JsonPrinter {
 		}
 	}
 	public function fieldsString($v, $fields) {
-		$first = true;
 		$this->buf->b .= "{";
+		$len = $fields->length;
+		$last = $len - 1;
 		{
 			$_g = 0;
-			while($_g < $fields->length) {
-				$f = $fields[$_g];
-				++$_g;
+			while($_g < $len) {
+				$i = $_g++;
+				$f = $fields[$i];
 				$value = Reflect::field($v, $f);
 				if(Reflect::isFunction($value)) {
 					continue;
 				}
-				if($first) {
-					$first = false;
-				} else {
+				if($i > 0) {
 					$this->buf->b .= ",";
+				} else {
+					$this->nind++;
+				}
+				if($this->pretty) {
+					$this->buf->b .= "\x0A";
+				}
+				if($this->pretty) {
+					$v1 = null;
+					{
+						$c = $this->indent;
+						$l = $this->nind * strlen($this->indent);
+						if(strlen($c) === 0 || strlen("") >= $l) {
+							$v1 = "";
+						} else {
+							$v1 = str_pad("", Math::ceil(($l - strlen("")) / strlen($c)) * strlen($c) + strlen(""), $c, STR_PAD_LEFT);
+						}
+						unset($l,$c);
+					}
+					$this->buf->add($v1);
+					unset($v1);
 				}
 				$this->quote($f);
 				$this->buf->b .= ":";
+				if($this->pretty) {
+					$this->buf->b .= " ";
+				}
 				$this->write($f, $value);
-				unset($value,$f);
+				if($i === $last) {
+					$this->nind--;
+					if($this->pretty) {
+						$this->buf->b .= "\x0A";
+					}
+					if($this->pretty) {
+						$v2 = null;
+						{
+							$c1 = $this->indent;
+							$l1 = $this->nind * strlen($this->indent);
+							if(strlen($c1) === 0 || strlen("") >= $l1) {
+								$v2 = "";
+							} else {
+								$v2 = str_pad("", Math::ceil(($l1 - strlen("")) / strlen($c1)) * strlen($c1) + strlen(""), $c1, STR_PAD_LEFT);
+							}
+							unset($l1,$c1);
+						}
+						$this->buf->add($v2);
+						unset($v2);
+					}
+				}
+				unset($value,$i,$f);
 			}
 		}
 		$this->buf->b .= "}";
@@ -188,8 +282,8 @@ class haxe_format_JsonPrinter {
 		else
 			throw new HException('Unable to call <'.$m.'>');
 	}
-	static function hprint($o, $replacer = null) {
-		$printer = new haxe_format_JsonPrinter($replacer);
+	static function hprint($o, $replacer = null, $space = null) {
+		$printer = new haxe_format_JsonPrinter($replacer, $space);
 		$printer->write("", $o);
 		return $printer->buf->b;
 	}

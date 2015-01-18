@@ -101,7 +101,7 @@ class Main
 		//var json:String = firebase.val();
 		//if (json == null || json == "" )
 		//{
-			//dto.error = "Usuario n√£o cadastrado.";	
+			//dto.error = "Usuario n„o cadastrado.";	
 			//return;
 		//}
 		//var user:FormModelData = Json.parse(data);

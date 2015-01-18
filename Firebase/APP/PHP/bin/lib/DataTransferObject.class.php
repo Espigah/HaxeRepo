@@ -18,7 +18,7 @@ class DataTransferObject {
 	public $tag;
 	public $result;
 	public function getJson() {
-		return haxe_Json::phpJsonEncode($this, null);
+		return haxe_Json::phpJsonEncode($this, null, null);
 	}
 	public function __call($m, $a) {
 		if(isset($this->$m) && is_callable($this->$m))

@@ -25,7 +25,7 @@ class EnterAction
 		var hashHaxe:Dynamic = Lib.hashOfAssociativeArray(hashPhp);	
 		var user:FormModelData = Json.parse(Main.data);
 		dto.message = "";
-		var userOrigen:FormModelData = {login:hashHaxe.get('login'), pass:, uid:, };
+		var userOrigen:FormModelData = {login:hashHaxe.get('login'), pass:hashHaxe.get('pass'), uid:hashHaxe.get('uid') };
 		if (userOrigen.login == user.login)
 		{
 			dto.message = "OK";
