@@ -1,6 +1,8 @@
-package src.app.chat.service;
-import app.chat.model.FormModel;
+package src.app.chat.service.core ;
+
 import openfl.errors.Error;
+import src.app.chat.service.action.FormAction;
+import src.app.chat.service.action.RoomAction;
 
 /**
  * ...
@@ -25,6 +27,7 @@ class Service
         return I;
     }
 	
-	public var form:FormSevice = new FormSevice();
+	public var form:FormAction = new FormAction();
+	public var room:RoomAction = new RoomAction();
 	
 }

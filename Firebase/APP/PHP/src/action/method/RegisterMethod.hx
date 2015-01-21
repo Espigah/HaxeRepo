@@ -1,10 +1,10 @@
-package actions;
+package action.method ;
 
 /**
  * ...
  * @author @Espigah-RAXE
  */
-class RegisterAction
+class RegisterMethod
 {
 
 	public function new(dto:DataTransferObject) 

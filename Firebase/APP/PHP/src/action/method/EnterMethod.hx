@@ -1,4 +1,4 @@
-package actions;
+package action.method ;
 import haxe.ds.HashMap;
 import haxe.Json;
 import model.ModelData.FormModelData;
@@ -10,7 +10,7 @@ import php.NativeArray;
  * ...
  * @author @Espigah-RAXE
  */
-class EnterAction
+class EnterMethod
 {
 
 	public function new(dto:DataTransferObject) 

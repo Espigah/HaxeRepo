@@ -1,8 +1,11 @@
 package src.app.chat.service.request;
 
-import app.chat.model.FormModel;
-import app.chat.service.ServiceData;
-import src.app.chat.service.ServiceRequest;
+
+import model.Model.FormModel;
+import src.app.chat.service.core.ServiceData;
+import src.app.chat.service.core.ServiceRequest;
+
+
 
 /**
  * ...
@@ -13,7 +16,7 @@ class FormRequest extends ServiceRequest
 
 	public function new() 
 	{
-		super(CONSTANTS.PROXY);
+		super();
 		
 	}
 	

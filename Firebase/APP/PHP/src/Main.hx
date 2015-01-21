@@ -1,7 +1,8 @@
 package;
 
-import actions.EnterAction;
-import actions.RegisterAction;
+import action.FormAction;
+import action.method.EnterMethod;
+import action.method.RegisterMethod;
 import php.Lib;
 import php.Web;
 
@@ -49,9 +50,10 @@ class Main
 			switch (method) 
 			{
 				case CONSTANTS.REGISTER:
-					new RegisterAction(dto);
+					new FormAction().register(dto);
 				case CONSTANTS.ENTER:				
-					new EnterAction(dto);
+					
+					new FormAction().enter(dto);
 			}		
 		}
 		else

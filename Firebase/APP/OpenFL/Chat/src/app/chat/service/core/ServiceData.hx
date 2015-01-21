@@ -1,4 +1,4 @@
-package app.chat.service;
+package src.app.chat.service.core ;
 
 /**
  * ...
