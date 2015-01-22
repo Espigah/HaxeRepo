@@ -31,7 +31,7 @@ class CONSTANTS
 	public static inline var METHOD:String = "method";
 	public static inline var PAGE:String = "page";	
 	static public inline var DATA:String = "data";
-	
+	static public inline var ACTION:String="action";
 	//________________________________________________________________________________________________________________________
 	//
 	//________________________________________________________________________________________________________________________
@@ -41,6 +41,7 @@ class CONSTANTS
 	static public inline var ENTER:String = "enter";
 	static public inline var ERROR:String = "error";
 	static public inline var REGISTER:String = "register";
+	
 	
 	
 }

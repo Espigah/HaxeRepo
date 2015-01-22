@@ -17,10 +17,12 @@ class FormRequest extends ServiceRequest
 		
 	}
 	
-	public function register(model:FormModel) 
+	public function register(model:FormModel,action:String="", method:String="") 
 	{
 		var data:ServiceData = new ServiceData();
-		data.method = CONSTANTS.ENTER;
+		data.action = action;		
+		data.method = method;
+		data.type = CONSTANTS.ENTER;
 		data.special = "1";
 		data.page =  model.login;		
 		data.path =  CONSTANTS.USER;		
@@ -29,9 +31,12 @@ class FormRequest extends ServiceRequest
 		load();
 	}
 	
-	public function enter(model:FormModel) 
+	public function enter(model:FormModel,action:String="", method:String="") 
 	{
 		var data:ServiceData = new ServiceData();
+		data.action = action;		
+		data.method = method;
+		
 		data.special = "1";
 		data.method = CONSTANTS.GET;
 		data.page = model.login;

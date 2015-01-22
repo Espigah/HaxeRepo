@@ -11,7 +11,8 @@ class ServiceData
 	public var data:Dynamic;
 	public var path:String;
 	public var special:String;
-	
+	public var action:String;
+	public var method:String;
 	public function new() 
 	{
 		
@@ -19,7 +20,14 @@ class ServiceData
 	
 	public function getString():String
 	{
-		return CONSTANTS.SPECIAL + "=" + special		+"&" + CONSTANTS.PATH + "=" + path		+"&" +CONSTANTS.PAGE + "=" + page +"&" +	CONSTANTS.METHOD + "=" + method	+"&" +	CONSTANTS.DATA + "=" + data;
+		return 
+		CONSTANTS.SPECIAL + "=" + special		+
+		"&" + CONSTANTS.ACTION + "=" + action		+
+		"&" + CONSTANTS.METHOD + "=" + method		+
+		"&" + CONSTANTS.PATH + "=" + path		+
+		"&" +CONSTANTS.PAGE + "=" + page +
+		"&" +	CONSTANTS.METHOD + "=" + method	+
+		"&" +	CONSTANTS.DATA + "=" + data;
 	}
 	
 }

@@ -675,7 +675,7 @@ class ApplicationMain {
 		
 		var hasMain = false;
 		
-		for (methodName in Type.getClassFields (Main)) {
+		for (methodName in Type.getClassFields (Tester)) {
 			
 			if (methodName == "main") {
 				
@@ -688,7 +688,7 @@ class ApplicationMain {
 		
 		if (hasMain) {
 			
-			Reflect.callMethod (Main, Reflect.field (Main, "main"), []);
+			Reflect.callMethod (Tester, Reflect.field (Tester, "main"), []);
 			
 		} else {
 			
@@ -723,7 +723,7 @@ class ApplicationMain {
 
 
 @:build(DocumentClass.build())
-@:keep class DocumentClass extends Main {}
+@:keep class DocumentClass extends Tester {}
 
 
 #else
