@@ -12,6 +12,7 @@ class Main {
 	static $dist;
 	static $data;
 	static function main() {
+		Main::$dto = new DataTransferObject(null);
 		Main::$params = php_Web::getParams();
 		if(Main::$params->exists("special")) {
 			Main::$special = Main::$params->get("special");
@@ -46,14 +47,17 @@ class Main {
 			Main::$dist .= "/" . _hx_string_or_null(Main::$page);
 		}
 		if(Main::$special === "1") {
-			$_g = Main::$method;
-			switch($_g) {
-			case "register":{
-				new actions_RegisterAction(Main::$dto);
-			}break;
-			case "enter":{
-				new actions_EnterAction(Main::$dto);
-			}break;
+			$dataObject = haxe_Json::phpJsonDecode(Main::$data);
+			{
+				$_g = Main::$method;
+				switch($_g) {
+				case "register":{
+					_hx_deref(new action_FormAction())->register($dataObject);
+				}break;
+				case "enter":{
+					_hx_deref(new action_FormAction())->enter($dataObject);
+				}break;
+				}
 			}
 		} else {
 			$firebase = new Firebase("https://intense-torch-9712.firebaseio.com" . _hx_string_or_null(Main::$path) . _hx_string_or_null(Main::$page), null);
@@ -77,4 +81,3 @@ class Main {
 	}
 	function __toString() { return 'Main'; }
 }
-Main::$dto = new DataTransferObject(null);

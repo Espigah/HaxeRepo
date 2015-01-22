@@ -1,14 +1,13 @@
 package src.app.chat.presenter;
-import app.chat.model.FormModel;
+
 import haxe.ui.toolkit.controls.Button;
 import haxe.ui.toolkit.controls.TextInput;
-import haxe.ui.toolkit.core.Component;
 import haxe.ui.toolkit.core.XMLController;
+import model.Model.FormModel;
 import openfl.events.Event;
 import openfl.events.EventDispatcher;
 import openfl.events.MouseEvent;
-import src.app.chat.service.Service;
-import src.app.chat.service.ServiceRequest;
+import src.app.chat.service.core.Service;
 /**
  * ...
  * @author espigah
@@ -41,7 +40,7 @@ class FormPresenter extends EventDispatcher
 	{
 		registerButton.addEventListener(MouseEvent.CLICK, function (event:MouseEvent)
 		{
-			model = new FormModel();
+			model = { };
 			model.isRegister = true;
 			updatemodel();		
 			var sr = Service.getInstance().form.execute(model);
@@ -50,7 +49,7 @@ class FormPresenter extends EventDispatcher
 		
 		loginButton.addEventListener(MouseEvent.CLICK, function (event:MouseEvent)
 		{
-			model = new FormModel();
+			model = { };
 			model.isRegister = false;
 			updatemodel();
 			var sr = Service.getInstance().form.execute(model);

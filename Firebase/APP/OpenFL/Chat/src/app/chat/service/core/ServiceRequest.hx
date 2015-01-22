@@ -1,13 +1,13 @@
-package src.app.chat.service;
+package src.app.chat.service.core ;
 
-import app.chat.service.ServiceData;
 import haxe.Json;
 import openfl.events.Event;
 import openfl.events.EventDispatcher;
 import openfl.events.IOErrorEvent;
-import openfl.net.URLRequest;
 import openfl.net.URLLoader;
+import openfl.net.URLRequest;
 import openfl.net.URLRequestMethod;
+import src.app.chat.service.core.ServiceData;
 /**
  * ...
  * @author espigah
@@ -19,12 +19,15 @@ class ServiceRequest extends EventDispatcher
 	public function new(url:String="",data:Dynamic=null) 
 	{
 		super(null);
-		if (url != "") { 
-			createRequest(url);
+		if (url == "") { 
+			url = CONSTANTS.PROXY;
+		};	
+		
+		createRequest(url);
 			if (data != null) { 
 				setData(data);
 			};
-		};		
+		
 	}
 	
 	public function createRequest(url:String):Void

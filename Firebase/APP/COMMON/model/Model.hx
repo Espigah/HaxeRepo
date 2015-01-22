@@ -1,22 +1,17 @@
 package model;
 import haxe.Json;
 
-/**
- * ...
- * @author espigah
- */
-class Model
-{
-
-	public function new() 
-	{
-		
-	}
-	
-	public function getJSON():String
-	{
-		return Json.stringify(this);
-	}
-	
+typedef FormModel = {
+   @:optional var login : String;   
+   @:optional var pass : String;   
+   @:optional var uid : String;   
+   @:optional var isRegister : Bool;   
 }
 
+
+
+typedef RoomModel = {
+   @:optional var login : String;   
+   @:optional var pass : String;   
+   @:optional var uid : String;   
+}

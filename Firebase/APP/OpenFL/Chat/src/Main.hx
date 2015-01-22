@@ -43,8 +43,8 @@ class Main extends Sprite
 				root.removeChild(view);
 				root.dispose();
 			}
-			view.addEventListener(Event.CHANGE, onChange);
-			view.addEventListener(Event.CHANGE, onRemove);	
+			//view.addEventListener(Event.CHANGE, onChange);
+			//view.addEventListener(Event.CHANGE, onRemove);	
        });
 	   
 	   
