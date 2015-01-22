@@ -19,13 +19,13 @@ class FormAction implements IFormAction
 	
 	public function enter(model:FormModel):Dynamic 
 	{
-		new EnterMethod(dto);
+		new EnterMethod(model);
 		return null;
 	}
 	
 	public function register(model:FormModel):Dynamic 
 	{
-		new RegisterMethod(dto);
+		new RegisterMethod(model);
 		return null;
 	}
 	

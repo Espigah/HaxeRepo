@@ -3,6 +3,7 @@ package;
 import action.FormAction;
 import action.method.EnterMethod;
 import action.method.RegisterMethod;
+import haxe.Json;
 import php.Lib;
 import php.Web;
 
@@ -13,7 +14,7 @@ import php.Web;
 
 class Main 
 {
-	static var dto:DataTransferObject = new DataTransferObject();
+	static public var dto:DataTransferObject;
 	static public var params;
 	static public var special:String; //action -> outras
 	static public var method:String; // action -> default -> get//post//etc
@@ -23,6 +24,7 @@ class Main
 	static public var data:String; // json
 	static function main() 
 	{
+		Main.dto = new DataTransferObject();
 		//
 		//if (Web.getMethod() == CONSTANTS.GET)
 		//{
@@ -47,13 +49,13 @@ class Main
 		
 		if (special == "1")
 		{
+			var dataObject:Dynamic = Json.parse(data);
 			switch (method) 
 			{
 				case CONSTANTS.REGISTER:
-					new FormAction().register(dto);
-				case CONSTANTS.ENTER:				
-					
-					new FormAction().enter(dto);
+					new FormAction().register(dataObject);
+				case CONSTANTS.ENTER:						
+					new FormAction().enter(dataObject);
 			}		
 		}
 		else
@@ -72,7 +74,7 @@ class Main
 				default:				
 			}   			
 		}
-		php.Lib.println(dto.getJson());
+		php.Lib.println(Main.dto.getJson());
 	}
 	
 	

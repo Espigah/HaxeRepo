@@ -1,5 +1,5 @@
 package action.method ;
-
+import model.Model.FormModel;
 /**
  * ...
  * @author @Espigah-RAXE
@@ -7,15 +7,15 @@ package action.method ;
 class RegisterMethod
 {
 
-	public function new(dto:DataTransferObject) 
+	public function new(model:FormModel) 
 	{
 		var firebase:Firebase =  new Firebase(Main.dist);
 		if (firebase.val() != null)
 		{
-			dto.error = "Usuario ja cadastrado.";			
+			Main.dto.error = "Usuario ja cadastrado.";			
 		}	
 		var r = firebase.set(Main.data);
-		dto.message = r;
+		Main.dto.message = r;
 	}
 	
 }

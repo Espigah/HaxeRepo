@@ -1,6 +1,7 @@
 package src.app.chat.service.request;
 
 
+import haxe.Json;
 import model.Model.FormModel;
 import src.app.chat.service.core.ServiceData;
 import src.app.chat.service.core.ServiceRequest;
@@ -22,12 +23,13 @@ class FormRequest extends ServiceRequest
 	
 	public function register(model:FormModel) 
 	{
+		//trace(Json.stringify(model));
 		var data:ServiceData = new ServiceData();
-		data.method = CONSTANTS.ENTER;
+		data.method = CONSTANTS.REGISTER;
 		data.special = "1";
 		data.page =  model.login;		
 		data.path =  CONSTANTS.USER;		
-		data.data = '{ "name":"' + model.login + '", "pass":"' + model.pass + '" }';
+		data.data = Json.stringify(model);
 		setData(data);
 		load();
 	}
@@ -38,7 +40,7 @@ class FormRequest extends ServiceRequest
 		data.special = "1";
 		data.method = CONSTANTS.GET;
 		data.page = model.login;
-		data.data = { name:model.login, pass:model.pass }; 
+		data.data = Json.stringify(model);
 		setData(data);
 		load();
 	}
