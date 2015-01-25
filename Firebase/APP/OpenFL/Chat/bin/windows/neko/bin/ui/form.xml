@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<vbox>
+	<grid columns="2" id="box">
+		<text text="Login:" id="login_label"  interactive="true" />
+		<TextInput text="fake1" id="login" />
+		<text text="Senha" id="senha_label" />
+		<TextInput text="123456" id="senha" displayAsPassword="true" />
+		<button text="Registrar" id="bt_register" />
+		<button text="Entrar" id="bt_login" x="200" />		
+	</grid>
+</vbox>

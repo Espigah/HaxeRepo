@@ -13,6 +13,7 @@ import openfl.events.EventDispatcher;
 import openfl.events.IOErrorEvent;
 import openfl.net.URLLoader;
 import openfl.net.URLRequest;
+import openfl.net.URLRequestHeader;
 import src.app.chat.service.core.Service;
 
 /**
@@ -126,6 +127,7 @@ class RoomPresenter extends EventDispatcher
 			{
 				
 			});
+			request.requestHeaders.push(new URLRequestHeader("Access-Control-Allow-Origin", "*"));
 			loader.load(request);	
 	}
 	

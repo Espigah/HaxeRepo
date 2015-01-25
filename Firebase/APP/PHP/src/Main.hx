@@ -29,6 +29,9 @@ class Main
 	static public var type:String; // json
 	static function main() 
 	{
+		
+		Web.setHeader("Access-Control-Allow-Origin", "*");
+		
 		Main.dto = new DataTransferObject();
 		#if debug 
 			tester();

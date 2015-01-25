@@ -14,6 +14,7 @@ class Main {
 	static $data;
 	static $type;
 	static function main() {
+		header("Access-Control-Allow-Origin" . ": " . "*");
 		Main::$dto = new DataTransferObject(null);
 		Main::$params = php_Web::getParams();
 		if(Main::$params->exists("special")) {

@@ -8,6 +8,7 @@ import openfl.events.EventDispatcher;
 import openfl.events.IOErrorEvent;
 import openfl.net.URLLoader;
 import openfl.net.URLRequest;
+import openfl.net.URLRequestHeader;
 import openfl.net.URLRequestMethod;
 import service.ServiceData;
 
@@ -42,6 +43,9 @@ class ServiceRequest extends EventDispatcher
 	{
 		request =  new openfl.net.URLRequest(url);
 		request.method = URLRequestMethod.GET;
+		
+		
+		request.requestHeaders.push(new URLRequestHeader("Access-Control-Allow-Origin", "*"));
 		request.contentType = "text/plain";	
 		if (data != null) { 
 			request.data = data;

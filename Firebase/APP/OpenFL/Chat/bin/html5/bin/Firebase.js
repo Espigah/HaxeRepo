@@ -1195,8 +1195,8 @@ var Main = function() {
 			root.removeChild(view);
 			root.dispose();
 		};
-		view.addEventListener(openfl.events.Event.CHANGE,$bind(_g,_g.onChange));
-		view.addEventListener(openfl.events.Event.CHANGE,onRemove);
+		view.addEventListener("close",$bind(_g,_g.onChange));
+		view.addEventListener("close",onRemove);
 	});
 };
 $hxClasses["Main"] = Main;
@@ -1204,7 +1204,7 @@ Main.__name__ = ["Main"];
 Main.__super__ = openfl.display.Sprite;
 Main.prototype = $extend(openfl.display.Sprite.prototype,{
 	onChange: function(e) {
-		haxe.Log.trace("onChange",{ fileName : "Main.hx", lineNumber : 62, className : "Main", methodName : "onChange", customParams : [e]});
+		haxe.Log.trace("onChange",{ fileName : "Main.hx", lineNumber : 63, className : "Main", methodName : "onChange", customParams : [e]});
 		new app.chat.presenter.GrdPresenter();
 	}
 	,__class__: Main
@@ -2618,7 +2618,6 @@ var app = {};
 app.chat = {};
 app.chat.presenter = {};
 app.chat.presenter.GrdPresenter = function() {
-	this.roomPresenter = new app.chat.presenter.RoomPresenter();
 	this.setupGrid();
 	this.connect();
 };
@@ -2626,10 +2625,19 @@ $hxClasses["app.chat.presenter.GrdPresenter"] = app.chat.presenter.GrdPresenter;
 app.chat.presenter.GrdPresenter.__name__ = ["app","chat","presenter","GrdPresenter"];
 app.chat.presenter.GrdPresenter.prototype = {
 	connect: function() {
+		this.roomPresenter = new app.chat.presenter.RoomPresenter();
+		this.roomPresenter.addEventListener("connected",$bind(this,this.onRoomConnectedHandler));
 		this.roomPresenter.connect($bind(this,this.onLoopHandler));
+	}
+	,onRoomConnectedHandler: function(e) {
+		haxe.Log.trace("OK",{ fileName : "GrdPresenter.hx", lineNumber : 44, className : "app.chat.presenter.GrdPresenter", methodName : "onRoomConnectedHandler"});
+		this.gridView.set_visible(true);
+		this.gridView.set_alpha(0);
+		motion.Actuate.tween(this.gridView,0.7,{ alpha : 1});
 	}
 	,setupGrid: function() {
 		this.gridView = new app.chat.views.GrdView();
+		this.gridView.set_visible(false);
 		this.gridView.addEventListener(openfl.events.MouseEvent.CLICK,$bind(this,this.onClickGridHandler));
 		openfl.Lib.current.stage.addChild(this.gridView);
 		this.gridView.set_x(openfl.Lib.current.stage.get_width() * 0.5);
@@ -2638,11 +2646,14 @@ app.chat.presenter.GrdPresenter.prototype = {
 		_g.set_x(_g.get_x() - this.gridView.get_width() * 0.5);
 		var _g1 = this.gridView;
 		_g1.set_y(_g1.get_y() - this.gridView.get_height() * 0.5);
-		this.gridView.set_alpha(0);
-		motion.Actuate.tween(this.gridView,0.5,{ alpha : 1});
 	}
 	,onClickGridHandler: function(e) {
-		this.roomPresenter.update();
+		if(js.Boot.__instanceof(e.target,app.chat.views.InteractiveView) == false) return;
+		var iv;
+		iv = js.Boot.__cast(e.target , app.chat.views.InteractiveView);
+		var gridModel = { l : iv.posiiton.l, c : iv.posiiton.c, value : iv.posiiton.get_value()};
+		this.roomPresenter.roomModel.data = this.gridView.map;
+		this.roomPresenter.update(gridModel);
 	}
 	,onLoopHandler: function() {
 		this.roomPresenter.refresh($bind(this,this.onRefreshHandler));
@@ -2653,10 +2664,13 @@ app.chat.presenter.GrdPresenter.prototype = {
 	,__class__: app.chat.presenter.GrdPresenter
 };
 app.chat.presenter.RoomPresenter = function() {
+	openfl.events.EventDispatcher.call(this);
+	this.isFirstUpdate = true;
 };
 $hxClasses["app.chat.presenter.RoomPresenter"] = app.chat.presenter.RoomPresenter;
 app.chat.presenter.RoomPresenter.__name__ = ["app","chat","presenter","RoomPresenter"];
-app.chat.presenter.RoomPresenter.prototype = {
+app.chat.presenter.RoomPresenter.__super__ = openfl.events.EventDispatcher;
+app.chat.presenter.RoomPresenter.prototype = $extend(openfl.events.EventDispatcher.prototype,{
 	create: function(onLoopHandler) {
 		var _g = this;
 		var onRoomConnected = function(e) {
@@ -2686,18 +2700,22 @@ app.chat.presenter.RoomPresenter.prototype = {
 		this.roomModel = JSON.parse(e.serviceRequest.result);
 	}
 	,onRoomCreateError: function(e) {
-		haxe.Log.trace(":onRoomCreateError",{ fileName : "RoomPresenter.hx", lineNumber : 78, className : "app.chat.presenter.RoomPresenter", methodName : "onRoomCreateError"});
+		haxe.Log.trace(":onRoomCreateError",{ fileName : "RoomPresenter.hx", lineNumber : 84, className : "app.chat.presenter.RoomPresenter", methodName : "onRoomCreateError"});
 	}
 	,refresh: function(callback,interval) {
-		if(interval == null) interval = 500;
+		if(interval == null) interval = 200;
 		var _g = this;
 		var url = "https://intense-torch-9712.firebaseio.com" + "/" + "rooms" + "/" + this.roomModel.id + ".json";
 		this.timer = new haxe.Timer(interval);
 		this.timer.run = function() {
 			try {
 				_g.doRefresh(callback,url);
+				if(_g.isFirstUpdate == true) {
+					_g.isFirstUpdate = false;
+					_g.dispatchEvent(new app.events.RoomEvents("connected"));
+				}
 			} catch( err ) {
-				haxe.Log.trace("Error->" + Std.string(err),{ fileName : "RoomPresenter.hx", lineNumber : 113, className : "app.chat.presenter.RoomPresenter", methodName : "refresh"});
+				haxe.Log.trace("Error->" + Std.string(err),{ fileName : "RoomPresenter.hx", lineNumber : 106, className : "app.chat.presenter.RoomPresenter", methodName : "refresh"});
 			}
 		};
 	}
@@ -2714,12 +2732,16 @@ app.chat.presenter.RoomPresenter.prototype = {
 		};
 		onRequestCompleted = onRequestCompleted1;
 		loader.addEventListener(openfl.events.Event.COMPLETE,onRequestCompleted);
+		loader.addEventListener(openfl.events.IOErrorEvent.IO_ERROR,function(e1) {
+		});
+		request.requestHeaders.push(new openfl.net.URLRequestHeader("Access-Control-Allow-Origin","*"));
 		loader.load(request);
 	}
-	,update: function() {
+	,update: function(gridModel) {
+		var sr = src.app.chat.service.core.Service.getInstance().room.update(this.roomModel,gridModel);
 	}
 	,__class__: app.chat.presenter.RoomPresenter
-};
+});
 var src = {};
 src.app = {};
 src.app.chat = {};
@@ -2739,11 +2761,12 @@ src.app.chat.service.core.ServiceRequest.prototype = $extend(openfl.events.Event
 	createRequest: function(url) {
 		this.request = new openfl.net.URLRequest(url);
 		this.request.method = openfl.net.URLRequestMethod.GET;
+		this.request.requestHeaders.push(new openfl.net.URLRequestHeader("Access-Control-Allow-Origin","*"));
 		this.request.contentType = "text/plain";
 		if(this.data != null) this.request.data = this.data;
 	}
 	,setData: function(data) {
-		haxe.Log.trace(":setData",{ fileName : "ServiceRequest.hx", lineNumber : 53, className : "src.app.chat.service.core.ServiceRequest", methodName : "setData", customParams : [data.getString()]});
+		haxe.Log.trace(":setData",{ fileName : "ServiceRequest.hx", lineNumber : 57, className : "src.app.chat.service.core.ServiceRequest", methodName : "setData", customParams : [data.getString()]});
 		this.data = data.getString();
 	}
 	,load: function() {
@@ -2754,13 +2777,13 @@ src.app.chat.service.core.ServiceRequest.prototype = $extend(openfl.events.Event
 		this.loader.load(this.request);
 	}
 	,onComplete: function(e) {
-		haxe.Log.trace("________________________",{ fileName : "ServiceRequest.hx", lineNumber : 69, className : "src.app.chat.service.core.ServiceRequest", methodName : "onComplete"});
-		haxe.Log.trace(this.loader.data,{ fileName : "ServiceRequest.hx", lineNumber : 70, className : "src.app.chat.service.core.ServiceRequest", methodName : "onComplete"});
-		haxe.Log.trace("________________________",{ fileName : "ServiceRequest.hx", lineNumber : 71, className : "src.app.chat.service.core.ServiceRequest", methodName : "onComplete"});
+		haxe.Log.trace("________________________",{ fileName : "ServiceRequest.hx", lineNumber : 73, className : "src.app.chat.service.core.ServiceRequest", methodName : "onComplete"});
+		haxe.Log.trace(this.loader.data,{ fileName : "ServiceRequest.hx", lineNumber : 74, className : "src.app.chat.service.core.ServiceRequest", methodName : "onComplete"});
+		haxe.Log.trace("________________________",{ fileName : "ServiceRequest.hx", lineNumber : 75, className : "src.app.chat.service.core.ServiceRequest", methodName : "onComplete"});
 		try {
 			this.dto = JSON.parse(this.loader.data);
 		} catch( err ) {
-			haxe.Log.trace(err,{ fileName : "ServiceRequest.hx", lineNumber : 78, className : "src.app.chat.service.core.ServiceRequest", methodName : "onComplete"});
+			haxe.Log.trace(err,{ fileName : "ServiceRequest.hx", lineNumber : 82, className : "src.app.chat.service.core.ServiceRequest", methodName : "onComplete"});
 			haxe.ui.toolkit.core.PopupManager.get_instance().showSimple(this.loader.data,"Paese Error");
 			return;
 		}
@@ -2774,7 +2797,7 @@ src.app.chat.service.core.ServiceRequest.prototype = $extend(openfl.events.Event
 		this.dispatchEvent(new app.events.ServiceRequestEvent("complete",this));
 	}
 	,onIOError: function(e) {
-		haxe.Log.trace(e,{ fileName : "ServiceRequest.hx", lineNumber : 103, className : "src.app.chat.service.core.ServiceRequest", methodName : "onIOError"});
+		haxe.Log.trace(e,{ fileName : "ServiceRequest.hx", lineNumber : 107, className : "src.app.chat.service.core.ServiceRequest", methodName : "onIOError"});
 		this.dispatchEvent(new app.events.ServiceRequestEvent("ioError",this));
 	}
 	,__class__: src.app.chat.service.core.ServiceRequest
@@ -2814,15 +2837,15 @@ app.chat.service.request.RoomRequest.prototype = $extend(src.app.chat.service.co
 	,update: function(roomModel,gridModel,action,method) {
 		if(method == null) method = "";
 		if(action == null) action = "";
+		var data = new service.ServiceData(gridModel,action,method);
+		data.page = roomModel.id + "/data";
+		data.path = "rooms";
+		this.setData(data);
+		this.load();
 	}
 	,refresh: function(roomModel,action,method) {
 		if(method == null) method = "";
 		if(action == null) action = "";
-		var data = new service.ServiceData(roomModel,action,method);
-		data.page = roomModel.id;
-		data.path = "rooms";
-		this.setData(data);
-		this.load();
 	}
 	,__class__: app.chat.service.request.RoomRequest
 });
@@ -2890,8 +2913,7 @@ app.chat.views.GrdView.prototype = $extend(openfl.display.Sprite.prototype,{
 	,onClick: function(e) {
 		var iv = e.currentTarget;
 		iv.removeEventListener(openfl.events.MouseEvent.CLICK,$bind(this,this.onClick));
-		iv.posiiton.set_value(1);
-		this.dispatchEvent(e);
+		iv.posiiton.set_value(app.utils.Session.player.login == "fake1"?1:2);
 	}
 	,updateMap: function(newMap) {
 		var _g1 = 0;
@@ -2904,7 +2926,7 @@ app.chat.views.GrdView.prototype = $extend(openfl.display.Sprite.prototype,{
 				var k = _g3++;
 				var value = newMap[i][k];
 				var position = this.mapPosiiton[i][k];
-				if(position.get_value() != value) position.set_value(value);
+				if(position.get_value() != value && value != 0) position.set_value(value);
 			}
 		}
 	}
@@ -2927,7 +2949,7 @@ app.chat.views.InteractiveView.prototype = $extend(openfl.display.Sprite.prototy
 		if(player == 1) {
 			this.addChild(this.state1);
 			this.state1.startAnimation();
-		} else {
+		} else if(player == 2) {
 			this.addChild(this.state2);
 			this.state2.startAnimation();
 		}
@@ -3058,6 +3080,17 @@ app.events.InteractiveViewEvent.__super__ = openfl.events.Event;
 app.events.InteractiveViewEvent.prototype = $extend(openfl.events.Event.prototype,{
 	__class__: app.events.InteractiveViewEvent
 });
+app.events.RoomEvents = function(type,bubbles,cancelable) {
+	if(cancelable == null) cancelable = false;
+	if(bubbles == null) bubbles = false;
+	openfl.events.Event.call(this,type,bubbles,cancelable);
+};
+$hxClasses["app.events.RoomEvents"] = app.events.RoomEvents;
+app.events.RoomEvents.__name__ = ["app","events","RoomEvents"];
+app.events.RoomEvents.__super__ = openfl.events.Event;
+app.events.RoomEvents.prototype = $extend(openfl.events.Event.prototype,{
+	__class__: app.events.RoomEvents
+});
 app.events.ServiceRequestEvent = function(type,serviceRequest,bubbles,cancelable) {
 	if(cancelable == null) cancelable = false;
 	if(bubbles == null) bubbles = false;
@@ -3069,6 +3102,17 @@ app.events.ServiceRequestEvent.__name__ = ["app","events","ServiceRequestEvent"]
 app.events.ServiceRequestEvent.__super__ = openfl.events.Event;
 app.events.ServiceRequestEvent.prototype = $extend(openfl.events.Event.prototype,{
 	__class__: app.events.ServiceRequestEvent
+});
+app.events.UIEvent = function(type,bubbles,cancelable) {
+	if(cancelable == null) cancelable = false;
+	if(bubbles == null) bubbles = false;
+	openfl.events.Event.call(this,type,bubbles,cancelable);
+};
+$hxClasses["app.events.UIEvent"] = app.events.UIEvent;
+app.events.UIEvent.__name__ = ["app","events","UIEvent"];
+app.events.UIEvent.__super__ = openfl.events.Event;
+app.events.UIEvent.prototype = $extend(openfl.events.Event.prototype,{
+	__class__: app.events.UIEvent
 });
 app.utils = {};
 app.utils.PersistTypes = function() { };
@@ -22255,7 +22299,6 @@ lime._backend.html5.HTML5Renderer.prototype = {
 		if(this.parent.window.backend.div != null) this.parent.context = lime.graphics.RenderContext.DOM(this.parent.window.backend.div); else if(this.parent.window.backend.canvas != null) {
 			var webgl = null;
 			if(webgl == null) this.parent.context = lime.graphics.RenderContext.CANVAS(this.parent.window.backend.canvas.getContext("2d")); else {
-				webgl = WebGLDebugUtils.makeDebugContext(webgl);
 				lime.graphics.opengl.GL.context = webgl;
 				this.parent.context = lime.graphics.RenderContext.OPENGL(lime.graphics.opengl.GL.context);
 			}
@@ -29896,29 +29939,24 @@ openfl.Memory._setPositionTemporarily = function(position,action) {
 	return value;
 };
 openfl.Memory.getByte = function(addr) {
-	if(addr < 0 || addr + 1 > openfl.Memory.len) throw "Bad address";
 	return openfl.Memory.gcRef.data.getInt8(addr);
 };
 openfl.Memory.getDouble = function(addr) {
-	if(addr < 0 || addr + 8 > openfl.Memory.len) throw "Bad address";
 	return openfl.Memory._setPositionTemporarily(addr,function() {
 		return openfl.Memory.gcRef.readDouble();
 	});
 };
 openfl.Memory.getFloat = function(addr) {
-	if(addr < 0 || addr + 4 > openfl.Memory.len) throw "Bad address";
 	return openfl.Memory._setPositionTemporarily(addr,function() {
 		return openfl.Memory.gcRef.readFloat();
 	});
 };
 openfl.Memory.getI32 = function(addr) {
-	if(addr < 0 || addr + 4 > openfl.Memory.len) throw "Bad address";
 	return openfl.Memory._setPositionTemporarily(addr,function() {
 		return openfl.Memory.gcRef.readInt();
 	});
 };
 openfl.Memory.getUI16 = function(addr) {
-	if(addr < 0 || addr + 2 > openfl.Memory.len) throw "Bad address";
 	return openfl.Memory._setPositionTemporarily(addr,function() {
 		return openfl.Memory.gcRef.readUnsignedShort();
 	});
@@ -29928,29 +29966,24 @@ openfl.Memory.select = function(inBytes) {
 	if(inBytes != null) openfl.Memory.len = inBytes.length; else openfl.Memory.len = 0;
 };
 openfl.Memory.setByte = function(addr,v) {
-	if(addr < 0 || addr + 1 > openfl.Memory.len) throw "Bad address";
 	openfl.Memory.gcRef.data.setUint8(addr,v);
 };
 openfl.Memory.setDouble = function(addr,v) {
-	if(addr < 0 || addr + 8 > openfl.Memory.len) throw "Bad address";
 	openfl.Memory._setPositionTemporarily(addr,function() {
 		openfl.Memory.gcRef.writeDouble(v);
 	});
 };
 openfl.Memory.setFloat = function(addr,v) {
-	if(addr < 0 || addr + 4 > openfl.Memory.len) throw "Bad address";
 	openfl.Memory._setPositionTemporarily(addr,function() {
 		openfl.Memory.gcRef.writeFloat(v);
 	});
 };
 openfl.Memory.setI16 = function(addr,v) {
-	if(addr < 0 || addr + 2 > openfl.Memory.len) throw "Bad address";
 	openfl.Memory._setPositionTemporarily(addr,function() {
 		openfl.Memory.gcRef.writeUnsignedShort(v);
 	});
 };
 openfl.Memory.setI32 = function(addr,v) {
-	if(addr < 0 || addr + 4 > openfl.Memory.len) throw "Bad address";
 	openfl.Memory._setPositionTemporarily(addr,function() {
 		openfl.Memory.gcRef.writeInt(v);
 	});
@@ -35331,7 +35364,9 @@ openfl.display.BitmapData.prototype = {
 				while(_g3 < _g2) {
 					var xx = _g3++;
 					position = (width_yy + xx) * 4;
-					pixelValue = openfl.Memory.getI32(position);
+					pixelValue = openfl.Memory._setPositionTemporarily(position,function() {
+						return openfl.Memory.gcRef.readInt();
+					});
 					pixelMask = pixelValue & mask;
 					i = openfl.display.BitmapData.__ucompare(pixelMask,thresholdMask);
 					test = false;
@@ -35391,7 +35426,9 @@ openfl.display.BitmapData.prototype = {
 				while(_g11 < dw) {
 					var xx1 = _g11++;
 					position1 = (xx1 + sx + (yy1 + sy) * sw) * 4;
-					pixelValue1 = openfl.Memory.getI32(position1);
+					pixelValue1 = openfl.Memory._setPositionTemporarily(position1,function() {
+						return openfl.Memory.gcRef.readInt();
+					});
 					pixelMask1 = pixelValue1 & mask;
 					i1 = openfl.display.BitmapData.__ucompare(pixelMask1,thresholdMask1);
 					test1 = false;
@@ -35399,7 +35436,9 @@ openfl.display.BitmapData.prototype = {
 					if(test1) {
 						openfl.Memory.setI32(position1,color);
 						hits1++;
-					} else if(copySource) openfl.Memory.setI32(position1,openfl.Memory.getI32(canvasMemory + position1));
+					} else if(copySource) openfl.Memory.setI32(position1,openfl.Memory._setPositionTemporarily(canvasMemory + position1,function() {
+						return openfl.Memory.gcRef.readInt();
+					}));
 				}
 			}
 			memory1.position = 0;
@@ -42469,7 +42508,7 @@ src.app.chat.controller.UIController.__name__ = ["src","app","chat","controller"
 src.app.chat.controller.UIController.__super__ = haxe.ui.toolkit.core.XMLController;
 src.app.chat.controller.UIController.prototype = $extend(haxe.ui.toolkit.core.XMLController.prototype,{
 	onForm: function(e) {
-		this.get_view().dispatchEvent(new openfl.events.Event(openfl.events.Event.CHANGE));
+		this.get_view().dispatchEvent(new app.events.UIEvent("close"));
 	}
 	,__class__: src.app.chat.controller.UIController
 });
@@ -42515,7 +42554,7 @@ src.app.chat.presenter.FormPresenter.prototype = $extend(openfl.events.EventDisp
 	}
 	,onRegisterComplete: function(e) {
 		e.target.removeEventListener("complete",$bind(this,this.onEnterComplete));
-		this.dispatchEvent(e);
+		this.loginButton.dispatchEvent(new openfl.events.MouseEvent(openfl.events.MouseEvent.CLICK));
 	}
 	,onEnterComplete: function(e) {
 		var formRequest = e.serviceRequest;
@@ -42729,7 +42768,7 @@ CONSTANTS.ROOM_PATH = "rooms";
 openfl.text.Font.__registeredFonts = new Array();
 app.chat.utils.Vector2D.map = [[0,0,0],[0,0,0],[0,0,0]];
 app.chat.views.InteractiveView.PLAYER_1 = 1;
-app.chat.views.InteractiveView.PLAYER_2 = 1;
+app.chat.views.InteractiveView.PLAYER_2 = 2;
 app.chat.views.VewAnimation.MAX = 3;
 openfl.events.Event.ACTIVATE = "activate";
 openfl.events.Event.ADDED = "added";
@@ -42758,9 +42797,11 @@ openfl.events.Event.TAB_ENABLED_CHANGE = "tabEnabledChange";
 openfl.events.Event.TAB_INDEX_CHANGE = "tabIndexChange";
 openfl.events.Event.UNLOAD = "unload";
 app.events.InteractiveViewEvent.UPDATE = "update";
+app.events.RoomEvents.CONNECTED = "connected";
 app.events.ServiceRequestEvent.ERROR = "error";
 app.events.ServiceRequestEvent.COMPLETE = "complete";
 app.events.ServiceRequestEvent.IO_ERROR = "ioError";
+app.events.UIEvent.CLOSE = "close";
 app.utils.Session.player = null;
 com.yagp.GifPlayerWrapper.globalTimescale = 1;
 format.gfx.GfxBytes.EOF = 0;
@@ -44075,7 +44116,7 @@ openfl.system.Capabilities.hasStreamingAudio = false;
 openfl.system.Capabilities.hasStreamingVideo = false;
 openfl.system.Capabilities.hasTLS = true;
 openfl.system.Capabilities.hasVideoEncoder = false;
-openfl.system.Capabilities.isDebugger = true;
+openfl.system.Capabilities.isDebugger = false;
 openfl.system.Capabilities.isEmbeddedInAcrobat = false;
 openfl.system.Capabilities.localFileReadDisable = true;
 openfl.system.Capabilities.manufacturer = "OpenFL Contributors";
@@ -44324,5 +44365,3 @@ openfl.ui.Keyboard.DOM_VK_EXECUTE = 43;
 openfl.ui.Keyboard.DOM_VK_SLEEP = 95;
 ApplicationMain.main();
 })(typeof window != "undefined" ? window : exports);
-
-//# sourceMappingURL=Firebase.js.map
