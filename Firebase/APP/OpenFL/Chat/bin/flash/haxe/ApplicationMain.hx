@@ -658,7 +658,7 @@ class ApplicationMain {
 		}
 		
 		#if js
-		#if munit
+		#if (munit || utest)
 		flash.Lib.embed (null, 800, 480, "000000");
 		#end
 		#else
@@ -675,7 +675,7 @@ class ApplicationMain {
 		
 		var hasMain = false;
 		
-		for (methodName in Type.getClassFields (Tester)) {
+		for (methodName in Type.getClassFields (Main)) {
 			
 			if (methodName == "main") {
 				
@@ -688,7 +688,7 @@ class ApplicationMain {
 		
 		if (hasMain) {
 			
-			Reflect.callMethod (Tester, Reflect.field (Tester, "main"), []);
+			Reflect.callMethod (Main, Reflect.field (Main, "main"), []);
 			
 		} else {
 			
@@ -723,7 +723,7 @@ class ApplicationMain {
 
 
 @:build(DocumentClass.build())
-@:keep class DocumentClass extends Tester {}
+@:keep class DocumentClass extends Main {}
 
 
 #else

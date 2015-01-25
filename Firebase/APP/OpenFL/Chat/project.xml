@@ -6,7 +6,7 @@
 	<meta title="Firebase" package="Firebase" version="1.0.0" company="espigah" />
 	
 	<!-- output -->
-	<app main="Tester" file="Firebase" path="bin" />
+	<app main="Main" file="Firebase" path="bin" />
 	
 	<window background="#000000" fps="60" />
 	<window width="800" height="480" unless="mobile" />

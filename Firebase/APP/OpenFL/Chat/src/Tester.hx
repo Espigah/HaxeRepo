@@ -1,5 +1,7 @@
 package;
+import app.utils.PersistTypes;
 import openfl.display.Sprite;
+import src.app.chat.service.action.FormAction;
 
 /**
  * ...
@@ -13,7 +15,7 @@ class Tester extends Sprite
 	public function new() 
 	{
 		super();
-		b();
+		 new FormAction();
 	}
 	
 	function b()

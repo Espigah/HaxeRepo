@@ -9,16 +9,28 @@ class Posiiton
 {
 	public var l:Int;
 	public var c:Int;
-	public var value:Int;
+	@:isVar public var value(get, set):Int=0;
 	public var iv:InteractiveView;
-	public function new(l:Int, c:Int, iv:InteractiveView, value:Int) 
+	public function new(c:Int, l:Int, iv:InteractiveView) 
 	{
 		this.iv = iv;
 		this.c = c;
 		this.l = l;
-		this.value = value;	
+		
 		
 		iv.posiiton = this;
+	}
+	
+	function get_value():Int 
+	{
+		return value;
+	}
+	
+	function set_value(__value:Int):Int 
+	{
+		value = __value;
+		iv.update();
+		return value;
 	}
 	
 }

@@ -1,13 +1,18 @@
 package src.app.chat.presenter;
 
+import app.events.ServiceRequestEvent;
+import app.utils.Session;
+import haxe.crypto.Sha256;
 import haxe.ui.toolkit.controls.Button;
 import haxe.ui.toolkit.controls.TextInput;
 import haxe.ui.toolkit.core.XMLController;
 import model.Model.FormModel;
+import model.Model.UserModelData;
 import openfl.events.Event;
 import openfl.events.EventDispatcher;
 import openfl.events.MouseEvent;
 import src.app.chat.service.core.Service;
+import src.app.chat.service.request.FormRequest;
 /**
  * ...
  * @author espigah
@@ -40,39 +45,53 @@ class FormPresenter extends EventDispatcher
 	{
 		registerButton.addEventListener(MouseEvent.CLICK, function (event:MouseEvent)
 		{
-			model = { };
-			model.isRegister = true;
-			updatemodel();		
-			var sr = Service.getInstance().form.execute(model);
-			sr.addEventListener(Event.COMPLETE, onRegisterComplete);
+			model = { };		
+			updatemodel();				
+			var sr = cast Service.getInstance().form.register(model);
+			sr.addEventListener(ServiceRequestEvent.COMPLETE, onRegisterComplete);
+			sr.addEventListener(ServiceRequestEvent.ERROR, onRegisterError);
 		});
 		
 		loginButton.addEventListener(MouseEvent.CLICK, function (event:MouseEvent)
 		{
-			model = { };
-			model.isRegister = false;
-			updatemodel();
-			var sr = Service.getInstance().form.execute(model);
-			sr.addEventListener(Event.COMPLETE, onEnterComplete);
+			model = { };			
+			updatemodel();			
+			var sr = cast Service.getInstance().form.enter(model);
+			sr.addEventListener(ServiceRequestEvent.COMPLETE, onEnterComplete);
+			sr.addEventListener(ServiceRequestEvent.ERROR, onEnterError);
 		});
 	}
 	
-	function onRegisterComplete(e:Event) 
+	private function onRegisterError(e:ServiceRequestEvent):Void 
 	{
-		e.target.removeEventListener(Event.COMPLETE, onEnterComplete);
-		dispatchEvent(e);
+		trace(":onRegisterError");
 	}
 	
-	function onEnterComplete(e:Event) 
+	private function onEnterError(e:ServiceRequestEvent):Void 
 	{
-		e.target.removeEventListener(Event.COMPLETE, onEnterComplete);
+		trace(":onEnterError");
+	}
+	
+	function onRegisterComplete(e:ServiceRequestEvent) 
+	{
+		e.target.removeEventListener(ServiceRequestEvent.COMPLETE, onEnterComplete);
+		//dispatchEvent(e);
+		loginButton.dispatchEvent(new MouseEvent(MouseEvent.CLICK));
+	}
+	
+	function onEnterComplete(e:ServiceRequestEvent) 
+	{
+		var formRequest:FormRequest = cast e.serviceRequest;
+		formRequest.removeEventListener(ServiceRequestEvent.COMPLETE, onEnterComplete);
+		Session.player = formRequest.result;		
 		dispatchEvent(e);
 	}
 	
 	function updatemodel() 
 	{
-		model.pass = passtext.text;
+		model.pass = Sha256.encode(passtext.text);
 		model.login = lognText.text;
+		model.uid = Sha256.encode(lognText.text+model.pass);
 	}
 	
 }

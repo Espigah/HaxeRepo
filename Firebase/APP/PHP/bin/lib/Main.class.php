@@ -7,10 +7,12 @@ class Main {
 	static $params;
 	static $special;
 	static $method;
+	static $action;
 	static $page;
 	static $path;
 	static $dist;
 	static $data;
+	static $type;
 	static function main() {
 		Main::$dto = new DataTransferObject(null);
 		Main::$params = php_Web::getParams();
@@ -39,6 +41,16 @@ class Main {
 		} else {
 			Main::$path = "";
 		}
+		if(Main::$params->exists("TYPE")) {
+			Main::$type = Main::$params->get("TYPE");
+		} else {
+			Main::$type = "";
+		}
+		if(Main::$params->exists("action")) {
+			Main::$action = Main::$params->get("action");
+		} else {
+			Main::$action = "";
+		}
 		Main::$dist = "https://intense-torch-9712.firebaseio.com";
 		if(Main::$path !== "") {
 			Main::$dist .= "/" . _hx_string_or_null(Main::$path);
@@ -46,24 +58,16 @@ class Main {
 		if(Main::$page !== "") {
 			Main::$dist .= "/" . _hx_string_or_null(Main::$page);
 		}
-		if(Main::$special === "1") {
+		if(Main::$type === "" && Main::$action !== "") {
 			$dataObject = haxe_Json::phpJsonDecode(Main::$data);
-			{
-				$_g = Main::$method;
-				switch($_g) {
-				case "register":{
-					_hx_deref(new action_FormAction())->register($dataObject);
-				}break;
-				case "enter":{
-					_hx_deref(new action_FormAction())->enter($dataObject);
-				}break;
-				}
-			}
+			$ClassT = Type::resolveClass("action." . _hx_string_or_null(Main::$action));
+			$instance = Type::createInstance($ClassT, (new _hx_array(array())));
+			Reflect::callMethod($instance, Reflect::field($instance, Main::$method), (new _hx_array(array($dataObject))));
 		} else {
 			$firebase = new Firebase("https://intense-torch-9712.firebaseio.com" . _hx_string_or_null(Main::$path) . _hx_string_or_null(Main::$page), null);
 			{
-				$_g1 = Main::$method;
-				switch($_g1) {
+				$_g = Main::$type;
+				switch($_g) {
 				case "set":{
 				}break;
 				case "update":{
@@ -78,6 +82,8 @@ class Main {
 			}
 		}
 		php_Lib::println(Main::$dto->getJson());
+	}
+	static function tester() {
 	}
 	function __toString() { return 'Main'; }
 }

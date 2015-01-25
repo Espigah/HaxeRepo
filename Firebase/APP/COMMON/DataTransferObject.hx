@@ -11,9 +11,11 @@ class DataTransferObject // poderia ser um typedef
 	public var message:String = "";
 	public var tag:String = "";
 	public var result:String;
+	public var logger:Array<Dynamic>=[];
 	public function new(data:Dynamic = null) 
-	{
+	{		
 		if (data == null) { return; }
+		
 		error = data.error;
 		message = data.message;
 		tag = data.tag;

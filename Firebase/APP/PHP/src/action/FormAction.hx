@@ -1,6 +1,6 @@
 package action;
-import action.method.EnterMethod;
-import action.method.RegisterMethod;
+import action.method.FormEnterMethod;
+import action.method.FormRegisterMethod;
 import model.Model.FormModel;
 
 /**
@@ -19,13 +19,13 @@ class FormAction implements IFormAction
 	
 	public function enter(model:FormModel):Dynamic 
 	{
-		new EnterMethod(model);
+		new FormEnterMethod(model);
 		return null;
 	}
 	
 	public function register(model:FormModel):Dynamic 
 	{
-		new RegisterMethod(model);
+		new FormRegisterMethod(model);
 		return null;
 	}
 	

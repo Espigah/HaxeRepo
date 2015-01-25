@@ -139,6 +139,12 @@ class firebase {
         $snap = $rest->get( $this->url() );
         return json_decode($snap,true);
     }
+	
+	  public function ordering($query) {
+		$rest = new rest($this->isDebug);
+		$snap = $rest->get( $this->url()."?".$query  );
+		 return json_decode($snap,true);
+	 }
     
     public function set($data) {
         $rest = new rest($this->isDebug);

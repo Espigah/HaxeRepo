@@ -1,13 +1,16 @@
 package src.app.chat.service.core ;
 
+import app.events.ServiceRequestEvent;
 import haxe.Json;
+import haxe.ui.toolkit.core.PopupManager;
 import openfl.events.Event;
 import openfl.events.EventDispatcher;
 import openfl.events.IOErrorEvent;
 import openfl.net.URLLoader;
 import openfl.net.URLRequest;
 import openfl.net.URLRequestMethod;
-import src.app.chat.service.core.ServiceData;
+import service.ServiceData;
+
 /**
  * ...
  * @author espigah
@@ -16,17 +19,22 @@ class ServiceRequest extends EventDispatcher
 {
 	var request:openfl.net.URLRequest;
 	var loader:URLLoader;
+	var url:String;
+	public var dto:Dynamic;
+	public var result:Dynamic;
+	public var enbalePopup:Bool;
+	public var data:Dynamic;
 	public function new(url:String="",data:Dynamic=null) 
 	{
-		super(null);
+		super(null);	
 		if (url == "") { 
 			url = CONSTANTS.PROXY;
 		};	
+		this.url = url;
+		this.data = data;
 		
-		createRequest(url);
-			if (data != null) { 
-				setData(data);
-			};
+		
+	
 		
 	}
 	
@@ -35,17 +43,21 @@ class ServiceRequest extends EventDispatcher
 		request =  new openfl.net.URLRequest(url);
 		request.method = URLRequestMethod.GET;
 		request.contentType = "text/plain";	
+		if (data != null) { 
+			request.data = data;
+		};
 	}
 	
 	public function setData(data:ServiceData):Void
 	{
 		trace(":setData", data.getString());
-		request.data = data.getString();
+		this.data = data.getString();
 	}
 	
 	public function load():Void
 	{
-		loader = new URLLoader(request);
+		createRequest(url);		
+		loader = new URLLoader();
 		loader.addEventListener(Event.COMPLETE, onComplete );
 		//loader.addEventListener(Event.INIT, onNetworkError);
 		loader.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
@@ -54,22 +66,41 @@ class ServiceRequest extends EventDispatcher
 	
 	public function onComplete(e:Event):Void
 	{
-		trace(e, loader.data, loader.dataFormat);
-		var d:Dynamic = Json.parse(loader.data);
-		if (d.result != null)
+		trace("________________________" );
+		trace(loader.data);
+		trace("________________________" );
+		
+		try 
 		{
-			d.result = Json.parse(d.result );
-		}
-		if (d.error != "")
+			dto = Json.parse(loader.data);
+		}catch (err:Dynamic)
 		{
-			
+			trace(err);
+			PopupManager.instance.showSimple(loader.data, "Paese Error");
+			return;
 		}
 		
-		dispatchEvent(e);
+		if (dto.error != "")
+		{
+			if (enbalePopup)
+			{
+				PopupManager.instance.showSimple(dto.error,"Firebase:"+dto.tag);
+			}
+			dispatchEvent(new ServiceRequestEvent(ServiceRequestEvent.ERROR, this));
+			return;
+		}
+		if (dto.result != null)
+		{
+			result = Json.parse(dto.result );
+		}
+		enbalePopup = true;
+		dispatchEvent(new ServiceRequestEvent(ServiceRequestEvent.COMPLETE,this));	
 	}
+	
 	
 	public function onIOError(e:IOErrorEvent):Void
 	{
 		trace(e);
+		dispatchEvent(new ServiceRequestEvent(ServiceRequestEvent.IO_ERROR, this));
 	}
 }

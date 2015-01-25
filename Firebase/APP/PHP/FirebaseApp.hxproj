@@ -42,7 +42,7 @@
   <!-- Executed before build -->
   <preBuildCommand />
   <!-- Executed after build -->
-  <postBuildCommand alwaysRun="False" />
+  <postBuildCommand alwaysRun="False">XCOPY $(OutputFile) C:\wamp\www\php\firebase /S  /Y /Q</postBuildCommand>
   <!-- Other project options -->
   <options>
     <option showHiddenPaths="False" />

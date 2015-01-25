@@ -12,6 +12,7 @@ extern class Firebase
 	public function delete($data:Dynamic):Dynamic;
 	public function child($child:Dynamic):Dynamic;
 	public function val():Dynamic;
+	public function ordering(query:String):Dynamic;
 }
 
 

@@ -1,0 +1,10 @@
+{
+	"title": "Firebase",
+	"id": "Firebase",
+	"type": "pdk",
+	"version": "1.0.0",
+	"vendor": "espigah",
+	"icon": "icon.png",
+	"main": "Firebase",
+	"requiredMemory": 40
+}

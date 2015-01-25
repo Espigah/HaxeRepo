@@ -8,7 +8,8 @@ import haxe.ds.Vector;
  */
 class Vector2D
 {
-	public static var map:Array<Array<Int>> = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]];
+	//public static var map:Array<Array<Int>> = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]];
+	public static var map:Array<Array<Int>> = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
     public static function create(w:Int, h:Int)
     {
        //var testMap:Array<Array<Int>>

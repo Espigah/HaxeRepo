@@ -3,6 +3,7 @@
 class DataTransferObject {
 	public function __construct($data = null) {
 		if(!php_Boot::$skip_constructor) {
+		$this->logger = (new _hx_array(array()));
 		$this->tag = "";
 		$this->message = "";
 		$this->error = "";
@@ -17,6 +18,7 @@ class DataTransferObject {
 	public $message;
 	public $tag;
 	public $result;
+	public $logger;
 	public function getJson() {
 		return haxe_Json::phpJsonEncode($this, null, null);
 	}

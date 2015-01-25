@@ -35,12 +35,17 @@ class CONSTANTS
 	//________________________________________________________________________________________________________________________
 	//
 	//________________________________________________________________________________________________________________________
-	public static inline var PROXY:String = "http://fabriciogoncalves.com/php/app/bin/index.php";
+	//public static inline var PROXY:String = "http://fabriciogoncalves.com/php/app/bin/index.php";
+	public static inline var PROXY:String = "http://localhost/php/firebase/index.php";
 	static public inline var USER:String = "users";
 	static public inline var PATH:String = "path";
 	static public inline var ENTER:String = "enter";
 	static public inline var ERROR:String = "error";
 	static public inline var REGISTER:String = "register";
+	static public inline var TYPE:String = "TYPE";
+	static public inline var PLAYER_1_VALUE:Int = 1;
+	static public inline var PLAYER_2_VALUE:Int = 2;
+	static public inline var ROOM_PATH:String = "rooms";
 	
 	
 	

@@ -579,7 +579,19 @@ class ApplicationMain {
 		types.push (AssetType.FONT);
 		
 		
-		urls.push ("ui/hello-world.xml");
+		urls.push ("img/b0.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("img/b1.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("img/b2.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("ui/form.xml");
 		types.push (AssetType.TEXT);
 		
 		
@@ -639,14 +651,14 @@ class ApplicationMain {
 			orientation: "",
 			resizable: true,
 			stencilBuffer: false,
-			title: "URLRequest",
+			title: "Firebase",
 			vsync: false,
 			width: Std.int (800),
 			
 		}
 		
 		#if js
-		#if munit
+		#if (munit || utest)
 		flash.Lib.embed (null, 800, 480, "000000");
 		#end
 		#else

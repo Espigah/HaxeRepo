@@ -12,11 +12,16 @@ class CONSTANTS {
 	static $METHOD = "method";
 	static $PAGE = "page";
 	static $DATA = "data";
-	static $PROXY = "http://fabriciogoncalves.com/php/app/bin/index.php";
+	static $ACTION = "action";
+	static $PROXY = "http://localhost/php/firebase/index.php";
 	static $USER = "users";
 	static $PATH = "path";
 	static $ENTER = "enter";
 	static $ERROR = "error";
 	static $REGISTER = "register";
+	static $TYPE = "TYPE";
+	static $PLAYER_1_VALUE = 1;
+	static $PLAYER_2_VALUE = 2;
+	static $ROOM_PATH = "rooms";
 	function __toString() { return 'CONSTANTS'; }
 }

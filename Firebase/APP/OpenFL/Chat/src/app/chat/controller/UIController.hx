@@ -1,4 +1,5 @@
 package src.app.chat.controller;
+import app.events.UIEvent;
 import haxe.Timer;
 import src.app.chat.presenter.FormPresenter;
 import haxe.ui.toolkit.core.XMLController;
@@ -28,7 +29,7 @@ class UIController extends XMLController
 	
 	private function onForm(e:Event):Void 
 	{
-		view.dispatchEvent(new Event(Event.CHANGE));
+		view.dispatchEvent(new UIEvent(UIEvent.CLOSE));
 	}
 	
 	

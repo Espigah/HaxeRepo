@@ -1,7 +1,9 @@
 package app.chat.views;
 
 import app.chat.utils.Posiiton;
+import app.events.InteractiveViewEvent;
 import openfl.display.Sprite;
+import openfl.events.Event;
 
 /**
  * ...
@@ -14,11 +16,11 @@ class InteractiveView extends Sprite
 	var state2:View;
 	public var posiiton:Posiiton;
 	static public inline var PLAYER_1:Int = 1;
-	static public inline var PLAYER_2:Int = 1;
+	static public inline var PLAYER_2:Int = 2;
 	public function new() 
 	{
 		super();
-		state0 = new View(0);
+		state0 = new View(0);		
 		state1 = new View(1);
 		state2 = new View(2);
 		initialState();
@@ -26,16 +28,26 @@ class InteractiveView extends Sprite
 	
 	public function activate(player:Int) 
 	{
-		if (player == PLAYER_1)
+		buttonMode = false;
+		mouseEnabled = false;
+		
+		if (player == CONSTANTS.PLAYER_1_VALUE)
 		{
 			addChild(state1);
 			state1.startAnimation();
 		}
 		else
+		if (player == CONSTANTS.PLAYER_2_VALUE)		
 		{
 			addChild(state2);
-			state1.startAnimation();
+			state2.startAnimation();
 		}		
+	}
+	
+	public function update() 
+	{		
+		activate(posiiton.value);
+		dispatchEvent(new InteractiveViewEvent(InteractiveViewEvent.UPDATE,this));
 	}
 	
 	function initialState() 
